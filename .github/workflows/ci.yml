@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Confirm CI is running
+        run: |
+          echo "CI running on branch: ${{ github.ref_name }}"
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          echo "Add project-specific steps below as the project grows:"
+          echo "  - Install dependencies"
+          echo "  - Run linter"
+          echo "  - Run tests"
+          echo "  - Build"
+
+      # -------------------------------------------------------
+      # ADD PROJECT-SPECIFIC STEPS HERE
+      # Examples (uncomment and adapt as needed):
+      # -------------------------------------------------------
+
+      # - name: Install dependencies
+      #   run: npm ci
+
+      # - name: Lint
+      #   run: npm run lint
+
+      # - name: Test
+      #   run: npm test
+
+      # - name: Build
+      #   run: npm run build

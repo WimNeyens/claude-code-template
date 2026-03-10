@@ -1,0 +1,70 @@
+version: 2
+
+updates:
+  # Keep GitHub Actions up to date — always active.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+
+  # ── Package manager entries ──────────────────────────────────────────────────
+  # Uncomment the block that matches your project's package manager.
+  # Only one block should be active at a time; duplicate entries for the same
+  # ecosystem will cause Dependabot to report a configuration error.
+  #
+  # npm / pnpm / yarn (JavaScript / TypeScript)
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   commit-message:
+  #     prefix: "deps"
+  #   open-pull-requests-limit: 5
+  #
+  # pip (Python)
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   commit-message:
+  #     prefix: "deps"
+  #   open-pull-requests-limit: 5
+  #
+  # cargo (Rust)
+  # - package-ecosystem: "cargo"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   commit-message:
+  #     prefix: "deps"
+  #   open-pull-requests-limit: 5
+  #
+  # bundler (Ruby)
+  # - package-ecosystem: "bundler"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   commit-message:
+  #     prefix: "deps"
+  #   open-pull-requests-limit: 5
+  #
+  # gomod (Go)
+  # - package-ecosystem: "gomod"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   commit-message:
+  #     prefix: "deps"
+  #   open-pull-requests-limit: 5
+  #
+  # maven (Java / Kotlin)
+  # - package-ecosystem: "maven"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   commit-message:
+  #     prefix: "deps"
+  #   open-pull-requests-limit: 5
+  # ────────────────────────────────────────────────────────────────────────────

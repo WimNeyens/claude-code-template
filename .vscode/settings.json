@@ -1,0 +1,26 @@
+{
+  // Editor behaviour
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.rulers": [100],
+  "editor.trimAutoWhitespace": true,
+
+  // File handling
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // Explorer
+  "explorer.confirmDelete": true,
+  "explorer.confirmDragAndDrop": false,
+
+  // Git
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.pruneOnFetch": true,
+
+  // Terminal
+  "terminal.integrated.scrollback": 5000
+}

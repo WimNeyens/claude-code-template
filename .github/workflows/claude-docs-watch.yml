@@ -1,0 +1,87 @@
+name: Watch Claude Code Docs
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday 09:00 UTC
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  check:
+    name: Check for Claude Code doc changes
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Fetch release notes and hash content
+        id: fetch
+        run: |
+          curl -sL "https://docs.anthropic.com/en/release-notes/claude-code" \
+            -H "User-Agent: Mozilla/5.0 (compatible; template-docs-watcher/1.0)" \
+            -o /tmp/docs.html
+          HASH=$(sha256sum /tmp/docs.html | cut -d' ' -f1)
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+
+      - name: Compare to baseline
+        id: compare
+        run: |
+          BASELINE=$(cat .claude/docs-baseline.hash 2>/dev/null | tr -d '[:space:]' || echo "")
+          LATEST="${{ steps.fetch.outputs.hash }}"
+          if [ "$BASELINE" != "$LATEST" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open issue if docs changed
+        if: steps.compare.outputs.changed == 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            // Skip if there is already an open review issue
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['claude-docs-update'],
+              state: 'open',
+            });
+            if (existing.data.length > 0) {
+              console.log('Open review issue already exists — skipping.');
+              return;
+            }
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Claude Code release notes changed — review template',
+              labels: ['claude-docs-update'],
+              body: [
+                '## Claude Code docs have been updated',
+                '',
+                'The [Claude Code release notes](https://docs.anthropic.com/en/release-notes/claude-code) page changed since the last baseline was recorded.',
+                '',
+                '### What to check',
+                '',
+                '- New features or settings not yet reflected in `docs/concepts.md`',
+                '- New hook events, tool types, or permission patterns',
+                '- Deprecated features the template should stop recommending',
+                '- Updated defaults or best practices to adopt',
+                '- Security or permission changes',
+                '',
+                '### How to review',
+                '',
+                'Open a Claude Code session in this repo and run:',
+                '',
+                '```',
+                '/sync-template',
+                '```',
+                '',
+                'The skill will fetch the release notes, compare them against the template files, and guide you through applying updates.',
+                '',
+                'Once the template is updated, close this issue — the next `/sync-template` run will reset the baseline automatically.',
+              ].join('\n'),
+            });

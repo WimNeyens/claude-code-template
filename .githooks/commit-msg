@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# commit-msg hook: enforce commit message format.
+# Install once per machine: git config core.hooksPath .githooks
+set -euo pipefail
+
+COMMIT_MSG_FILE="$1"
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Skip merge commits, reverts, fixups, and squash commits — they have auto-generated subjects.
+if echo "$COMMIT_MSG" | grep -qE '^(Merge |Revert |fixup! |squash! )'; then
+  exit 0
+fi
+
+# Strip comment lines and extract the subject (first non-empty line).
+SUBJECT=$(echo "$COMMIT_MSG" | grep -v '^#' | sed '/^[[:space:]]*$/d' | head -1)
+
+if [ -z "$SUBJECT" ]; then
+  exit 0
+fi
+
+SUBJECT_LEN=${#SUBJECT}
+FAILED=0
+
+# Rule 1: subject line ≤ 50 characters.
+if [ "$SUBJECT_LEN" -gt 50 ]; then
+  echo ""
+  echo "BLOCKED: Subject line is $SUBJECT_LEN characters (limit: 50)."
+  echo "  $SUBJECT"
+  echo "Shorten the summary to 50 characters or fewer."
+  FAILED=1
+fi
+
+# Rule 2: subject must not end with a period.
+if echo "$SUBJECT" | grep -qE '\.$'; then
+  echo ""
+  echo "BLOCKED: Subject line ends with a period."
+  echo "  $SUBJECT"
+  echo "Remove the trailing period."
+  FAILED=1
+fi
+
+# Rule 3: if a body is present, the second non-comment line must be blank (blank separator).
+BODY_CHECK=$(echo "$COMMIT_MSG" | grep -v '^#' | sed -n '2p')
+if [ -n "$BODY_CHECK" ] && ! echo "$BODY_CHECK" | grep -qE '^[[:space:]]*$'; then
+  echo ""
+  echo "BLOCKED: No blank line between subject and body."
+  echo "Git and many tools require a blank line after the subject."
+  FAILED=1
+fi
+
+if [ "$FAILED" -ne 0 ]; then
+  echo ""
+  echo "See CLAUDE.md — Commit Messages for guidance."
+  echo "To bypass a confirmed exception: git commit --no-verify"
+  exit 1
+fi

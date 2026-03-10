@@ -1,0 +1,4 @@
+# Personal / machine-specific — do not commit
+settings.local.json
+*.local.md
+.DS_Store

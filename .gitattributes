@@ -1,0 +1,51 @@
+# Normalise line endings for all text files
+* text=auto
+
+# Force LF for cross-platform scripts
+*.sh     text eol=lf
+*.bash   text eol=lf
+
+# Force CRLF for Windows-only scripts
+*.ps1    text eol=crlf
+*.psm1   text eol=crlf
+*.psd1   text eol=crlf
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+
+# -------------------------------------------------------
+# Git LFS — track binary/image files
+# To enable: install git-lfs (https://git-lfs.com) then run `git lfs install`
+# -------------------------------------------------------
+
+# Images
+*.bmp    filter=lfs diff=lfs merge=lfs -text
+*.png    filter=lfs diff=lfs merge=lfs -text
+*.jpg    filter=lfs diff=lfs merge=lfs -text
+*.jpeg   filter=lfs diff=lfs merge=lfs -text
+*.gif    filter=lfs diff=lfs merge=lfs -text
+*.webp   filter=lfs diff=lfs merge=lfs -text
+*.svg    filter=lfs diff=lfs merge=lfs -text
+*.ico    filter=lfs diff=lfs merge=lfs -text
+
+# Documents
+*.pdf    filter=lfs diff=lfs merge=lfs -text
+
+# Video
+*.mp4    filter=lfs diff=lfs merge=lfs -text
+*.mov    filter=lfs diff=lfs merge=lfs -text
+
+# Fonts
+*.ttf    filter=lfs diff=lfs merge=lfs -text
+*.woff   filter=lfs diff=lfs merge=lfs -text
+*.woff2  filter=lfs diff=lfs merge=lfs -text
+
+# Archives
+*.zip    filter=lfs diff=lfs merge=lfs -text
+*.tar    filter=lfs diff=lfs merge=lfs -text
+*.gz     filter=lfs diff=lfs merge=lfs -text
+
+# Design files
+*.psd    filter=lfs diff=lfs merge=lfs -text
+*.fig    filter=lfs diff=lfs merge=lfs -text
+*.ai     filter=lfs diff=lfs merge=lfs -text
+*.sketch filter=lfs diff=lfs merge=lfs -text
