@@ -149,7 +149,11 @@ your-project-name/
 │   ├── docs-baseline.hash         # SHA-256 of last-reviewed Claude Code release notes
 │   ├── commands/
 │   │   ├── commit-message.md      # /commit-message slash command
+│   │   ├── debug.md               # /debug — systematic issue investigation
+│   │   ├── explain.md             # /explain — explain code, files, or architecture
+│   │   ├── pr.md                  # /pr — create a pull request from current branch
 │   │   ├── review-code.md         # /review-code slash command
+│   │   ├── test.md                # /test — write tests for new or changed code
 │   │   └── write-docs.md          # /write-docs — generates runbooks, ADRs, API docs
 │   ├── skills/
 │   │   └── sync-template/

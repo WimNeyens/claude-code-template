@@ -49,7 +49,7 @@ your-project-name/
 │   ├── settings.json          # Shared Claude permissions, env vars, and hooks (committed)
 │   ├── settings.local.json    # Machine-specific tokens and MCP servers (gitignored)
 │   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code release notes
-│   ├── commands/              # Slash commands: /review-code, /commit-message, /write-docs
+│   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /write-docs
 │   ├── skills/                # Skills: /sync-template (reviews Claude Code docs)
 │   ├── rules/                 # Standing instructions: code-style.md, documentation.md
 │   └── hooks/
@@ -125,6 +125,10 @@ All AI-assisted branches follow the pattern `claude/<task-id>-<description>` and
 |---|---|
 | `/review-code` | Reviews current branch changes for correctness, security, and simplicity |
 | `/commit-message` | Drafts a commit message from staged/unstaged changes |
+| `/pr` | Creates a pull request from the current branch with a drafted description |
+| `/test` | Writes tests for new or changed code, matching the project's framework |
+| `/explain` | Explains code, files, or architectural patterns in the project |
+| `/debug` | Systematically investigates an issue — gather evidence, hypothesise, fix |
 | `/write-docs` | Generates runbooks, ADRs, API references, or diagrams |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
 

@@ -108,5 +108,9 @@ Run `/memory` in any session to see all loaded instructions, including auto-save
 |---|---|
 | `/review-code` | Reviews current branch changes for correctness, security, and simplicity |
 | `/commit-message` | Drafts a commit message from staged changes |
+| `/pr` | Creates a pull request from the current branch with a drafted description |
+| `/test` | Writes tests for new or changed code, matching the project's framework |
+| `/explain` | Explains code, files, or architectural patterns in the project |
+| `/debug` | Systematically investigates an issue — gather evidence, hypothesise, fix |
 | `/write-docs` | Generates runbooks, ADRs, API references, or diagrams |
 | `/sync-template` | Reviews Claude Code release notes and updates the template |
