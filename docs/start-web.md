@@ -112,5 +112,6 @@ Run `/memory` in any session to see all loaded instructions, including auto-save
 | `/test` | Writes tests for new or changed code, matching the project's framework |
 | `/explain` | Explains code, files, or architectural patterns in the project |
 | `/debug` | Systematically investigates an issue — gather evidence, hypothesise, fix |
+| `/security-audit` | Runs a security audit — config, secrets, dependencies, CI, OWASP patterns |
 | `/write-docs` | Generates runbooks, ADRs, API references, or diagrams |
 | `/sync-template` | Reviews Claude Code release notes and updates the template |

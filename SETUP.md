@@ -153,6 +153,7 @@ your-project-name/
 │   │   ├── explain.md             # /explain — explain code, files, or architecture
 │   │   ├── pr.md                  # /pr — create a pull request from current branch
 │   │   ├── review-code.md         # /review-code slash command
+│   │   ├── security-audit.md      # /security-audit — run a security audit of the project
 │   │   ├── test.md                # /test — write tests for new or changed code
 │   │   └── write-docs.md          # /write-docs — generates runbooks, ADRs, API docs
 │   ├── skills/
@@ -162,6 +163,7 @@ your-project-name/
 │   │   ├── code-style.md          # Code style standards
 │   │   └── documentation.md       # Doc standards: audience levels, templates, style rules
 │   └── hooks/
+│       ├── pre-tool-use.sh        # Blocks reading secrets and external fetches (defense-in-depth)
 │       └── session-start.sh       # Prints git status and context at session start
 ├── .github/
 │   ├── workflows/

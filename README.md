@@ -53,6 +53,7 @@ your-project-name/
 │   ├── skills/                # Skills: /sync-template (reviews Claude Code docs)
 │   ├── rules/                 # Standing instructions: code-style.md, documentation.md
 │   └── hooks/
+│       ├── pre-tool-use.sh    # Blocks reading secrets and external fetches (defense-in-depth)
 │       └── session-start.sh   # Runs at the start of every Claude session
 ├── .github/
 │   ├── workflows/
@@ -129,6 +130,7 @@ All AI-assisted branches follow the pattern `claude/<task-id>-<description>` and
 | `/test` | Writes tests for new or changed code, matching the project's framework |
 | `/explain` | Explains code, files, or architectural patterns in the project |
 | `/debug` | Systematically investigates an issue — gather evidence, hypothesise, fix |
+| `/security-audit` | Runs a security audit — config, secrets, dependencies, CI, OWASP patterns |
 | `/write-docs` | Generates runbooks, ADRs, API references, or diagrams |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
 

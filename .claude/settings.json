@@ -24,7 +24,14 @@
       "Bash(git push * --no-verify*)",
       "Bash(git reset --hard*)",
       "Bash(git rebase -i*)",
-      "Bash(rm -rf *)"
+      "Bash(rm -rf *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.ssh/*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
     ]
   },
   "env": {
@@ -37,6 +44,16 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-tool-use.sh"
           }
         ]
       }
