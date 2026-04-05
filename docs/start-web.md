@@ -45,8 +45,8 @@ Claude gains read/write access to the connected repository.
 To extend it for your stack, edit the file and uncomment the relevant block (Node, Python, etc.):
 
 ```bash
-# The hook detects Claude Code Web sessions automatically:
-if [ "${CLAUDE_CODE_ENTRYPOINT:-}" != "web" ]; then
+# The hook detects Claude Code Web (remote) sessions automatically:
+if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
 fi
 ```

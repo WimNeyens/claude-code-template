@@ -431,7 +431,7 @@ Hooks are **not** for AI logic — use commands and skills for that. They are am
 
 This template already uses one hook: `SessionStart` runs `.claude/hooks/session-start.sh` to print git status and context at the beginning of every session.
 
-### The 19 hook events
+### The 19 hook events (as of April 2026)
 
 | Event | When it fires |
 |---|---|

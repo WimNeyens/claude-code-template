@@ -128,6 +128,7 @@ docs/
   api/                         # API reference documentation
   runbooks/                    # Operational runbooks
 CONTRIBUTING.md                # Contribution guide — GitHub surfaces this before new issues/PRs
+LICENSE                        # License — replace placeholder with your chosen license
 SECURITY.md                    # Vulnerability reporting policy — GitHub surfaces this in Security tab
 ```
 

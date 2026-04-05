@@ -82,6 +82,7 @@ your-project-name/
 ├── .gitignore                 # Files excluded from version control
 ├── CLAUDE.md                  # AI assistant instructions and project conventions
 ├── CONTRIBUTING.md            # How to contribute
+├── LICENSE                    # License — replace placeholder before publishing
 ├── README.md                  # This file
 ├── SECURITY.md                # Vulnerability reporting policy
 └── SETUP.md                   # How to get started on a new machine

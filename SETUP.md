@@ -188,6 +188,7 @@ your-project-name/
 ├── .gitignore                     # Files excluded from version control
 ├── CLAUDE.md                      # Claude Code instructions and project conventions
 ├── CONTRIBUTING.md                # How to contribute — shown by GitHub before new issues/PRs
+├── LICENSE                        # License — replace placeholder with your chosen license
 ├── SECURITY.md                    # Vulnerability reporting policy
 └── SETUP.md                       # This file — how to get started on a new machine
 ```
@@ -225,6 +226,8 @@ Only bypass when you are certain no real secret is present and the commit messag
 
 MCP servers give Claude access to local files and the GitHub API. They are machine-specific and stored in `.claude/settings.local.json` (gitignored — never committed).
 
+> **Note:** `.mcp.json` at the repo root is intentionally empty. It is the place for project-scoped MCP servers that the whole team shares (no secrets). Add servers here only when a project-scoped MCP server is needed. Machine-specific servers with tokens go in `.claude/settings.local.json` instead.
+
 Copy the example and fill in your values:
 
 ```bash
@@ -236,6 +239,19 @@ code .claude/settings.local.json
 Replace:
 - `/path/to/this/repo` with the actual path to this repo on your machine
 - `your-fine-grained-token-here` with a GitHub fine-grained PAT (see `docs/setup-guide.md` Phase 7)
+
+### Adapting permissions for your stack
+
+`.claude/settings.json` ships with pre-approved permissions for **Node.js** (`npm`) and **Python** (`pip`, `pytest`). If your project uses a different stack, add the relevant commands to the `"allow"` list:
+
+| Stack | Commands to add |
+|---|---|
+| Go | `Bash(go build *)`, `Bash(go test *)`, `Bash(go run *)`, `Bash(go mod *)` |
+| Rust | `Bash(cargo build *)`, `Bash(cargo test *)`, `Bash(cargo run *)`, `Bash(cargo clippy *)` |
+| .NET | `Bash(dotnet build *)`, `Bash(dotnet test *)`, `Bash(dotnet run *)` |
+| Ruby | `Bash(bundle install *)`, `Bash(bundle exec *)`, `Bash(rake *)` |
+
+Remove permissions for stacks you do not use to keep the allow-list focused.
 
 ---
 
