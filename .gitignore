@@ -10,6 +10,8 @@
 *.pfx
 secrets/
 credentials/
+_inbox/private/
+_outbox/private/
 
 # ============================================================
 # OS FILES
