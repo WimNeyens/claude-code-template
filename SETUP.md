@@ -56,8 +56,8 @@ Verify: `git lfs version`
 Used for managing pull requests, issues, and branches from the terminal.
 
 ```powershell
-# Windows
-winget install --id GitHub.cli
+# Windows — run from an elevated PowerShell (Run as Administrator)
+winget install --id GitHub.cli -e --source winget
 ```
 
 ```bash
@@ -76,6 +76,15 @@ gh auth login
 ```
 
 Verify: `gh --version`
+
+**Windows troubleshooting:**
+
+- *Installer exit code 1603* — the MSI needs Administrator rights. Re-run the command from an elevated PowerShell.
+- *`msstore` source errors* (e.g. `0x8a15000f : Data required by the source is missing`) — a broken Microsoft Store source blocks winget even when you want a different package. Either add `--source winget` (as shown above) to skip the store, or reset sources first:
+  ```powershell
+  winget source reset --force
+  ```
+- *Last resort* — download the MSI directly from https://cli.github.com and run it.
 
 ### 4. Node.js LTS (if the project uses JavaScript/TypeScript)
 
