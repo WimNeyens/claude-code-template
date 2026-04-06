@@ -20,6 +20,8 @@ Create a pull request from the current branch into main.
 
 7. **Return the PR URL** so the user can open it directly.
 
+8. **Remind about post-merge cleanup** — end the turn with a one-liner inviting the user to ping you once the PR is merged, so you can run `git checkout main && git pull && git branch -d <branch>` to keep the local workspace tidy. GitHub merges don't notify Claude, so this handoff must be explicit.
+
 ## Rules
 
 - Never create the PR without showing the draft first.
