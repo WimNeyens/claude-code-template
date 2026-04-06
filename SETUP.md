@@ -55,10 +55,19 @@ Verify: `git lfs version`
 
 Used for managing pull requests, issues, and branches from the terminal.
 
+**Windows — try winget first, fall back to the MSI:**
+
 ```powershell
-# Windows — run from an elevated PowerShell (Run as Administrator)
+# Run from an elevated PowerShell (Run as Administrator)
 winget install --id GitHub.cli -e --source winget
 ```
+
+If winget fails (common on corporate machines), download the MSI directly:
+
+1. Open https://github.com/cli/cli/releases/latest
+2. Scroll past the release notes to the **Assets** section (collapsed — click to expand)
+3. Download `gh_<version>_windows_amd64.msi`
+4. Double-click to install
 
 ```bash
 # macOS
@@ -77,14 +86,17 @@ gh auth login
 
 Verify: `gh --version`
 
-**Windows troubleshooting:**
+**Windows winget troubleshooting** (skip if you used the MSI):
 
-- *Installer exit code 1603* — the MSI needs Administrator rights. Re-run the command from an elevated PowerShell.
-- *`msstore` source errors* (e.g. `0x8a15000f : Data required by the source is missing`) — a broken Microsoft Store source blocks winget even when you want a different package. Either add `--source winget` (as shown above) to skip the store, or reset sources first:
+- *Installer exit code 1603* — the MSI needs Administrator rights. Re-run from an elevated PowerShell.
+- *`0x8a15000f : Data required by the source is missing`* — winget's source index is unreachable. Try `winget source reset --force` then `winget source update`. If that still fails on a corporate machine, it is almost always enterprise policy, a proxy, or TLS inspection blocking winget's CDN endpoints (`cdn.winget.microsoft.com`, `storeedgefd.dsx.mp.microsoft.com`). Diagnose with:
   ```powershell
-  winget source reset --force
+  # Enterprise policy check
+  reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller" 2>$null
+  # Reachability check
+  Test-NetConnection cdn.winget.microsoft.com -Port 443
   ```
-- *Last resort* — download the MSI directly from https://cli.github.com and run it.
+  On a restricted network, just use the MSI download above — it is served from GitHub's CDN, which is typically already allowed since `git clone` works.
 
 ### 4. Node.js LTS (if the project uses JavaScript/TypeScript)
 
