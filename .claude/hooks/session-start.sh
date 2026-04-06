@@ -25,6 +25,18 @@ echo ""
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
 
+if [ -f "TASKS.md" ]; then
+  OPEN_TASKS=$(grep -E '^\s*-\s*\[ \]' TASKS.md || true)
+  if [ -n "$OPEN_TASKS" ]; then
+    echo "--- Open tasks (TASKS.md) ---"
+    echo "$OPEN_TASKS"
+    echo ""
+    echo "Claude: surface these to the user before the branching prompt."
+    echo "If the user picks one, suggest a feature branch name derived from it."
+    echo ""
+  fi
+fi
+
 if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
   echo "--- ACTION REQUIRED: session started on $CURRENT_BRANCH ---"
   echo "Per CLAUDE.md, changes must not be committed directly to $CURRENT_BRANCH."
