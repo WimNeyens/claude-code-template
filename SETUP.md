@@ -159,6 +159,18 @@ git lfs pull
 
 ---
 
+## Post-Clone GitHub Settings
+
+GitHub template repositories copy **files only** — not repo settings, branch protection rules, secrets, labels, or webhooks. After creating a new repo from this template, apply the following settings manually in the GitHub web UI:
+
+| Setting | Where | Why |
+|---|---|---|
+| **Automatically delete head branches** | Settings → General → Pull Requests | Keeps the branch list clean; merged branches serve no purpose once their commits are in `main`. |
+
+Add more entries here as the template grows.
+
+---
+
 ## Repository Layout
 
 ```
