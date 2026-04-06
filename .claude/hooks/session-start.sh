@@ -1,33 +1,53 @@
 #!/bin/bash
-# SessionStart hook — runs at the start of every Claude Code Web session.
-# Only executes in remote (web) environments; exits silently for local CLI/VSCode.
+# SessionStart hook — runs at the start of every Claude Code session.
 #
 # PURPOSE:
-#   Prepare the environment so Claude can run project tools immediately.
-#   Add project-specific dependency installation below as the project grows.
+#   1. Surface git state (branch, status) so Claude can confirm the workspace.
+#   2. Warn when the session starts on main so Claude asks before editing.
+#   3. In remote (web) sessions only, install project dependencies.
 #
 # HOW TO EXTEND:
-#   Uncomment and adapt the relevant section for your project's tech stack.
+#   Uncomment the relevant dep-install block in the REMOTE-ONLY section below.
 
 set -euo pipefail
 
-# Only run in Claude Code Web (remote) sessions
-if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
-  exit 0
-fi
-
-echo "=== Session Start Hook ==="
+# -------------------------------------------------------
+# Always-run: git state and branch-choice prompt
+# -------------------------------------------------------
+echo "=== Session Start ==="
 echo "Project dir : ${CLAUDE_PROJECT_DIR:-$(pwd)}"
 echo "Date/time   : $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo ""
 
-# -------------------------------------------------------
-# Git — confirm repo state
-# -------------------------------------------------------
 echo "--- Git status ---"
-git fetch --quiet origin 2>/dev/null || echo "(fetch skipped — no network or credentials)"
-git status --short --branch
+git status --short --branch 2>/dev/null || { echo "(not a git repo — skipping)"; exit 0; }
 echo ""
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+
+if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
+  echo "--- ACTION REQUIRED: session started on $CURRENT_BRANCH ---"
+  echo "Per CLAUDE.md, changes must not be committed directly to $CURRENT_BRANCH."
+  echo "Before the first edit of this session, Claude MUST ask the user:"
+  echo "  1. Continue work on an existing branch? (list below)"
+  echo "  2. Create a new feature branch? (suggest a name based on the task)"
+  echo "  3. Proceed on $CURRENT_BRANCH anyway? (explicit override — rare)"
+  echo ""
+  echo "Existing local branches (other than $CURRENT_BRANCH):"
+  git for-each-ref --sort=-committerdate --format='  %(refname:short)  (last commit: %(committerdate:relative))' refs/heads/ \
+    | grep -v "  $CURRENT_BRANCH  " | head -10 || echo "  (none)"
+  echo ""
+fi
+
+# -------------------------------------------------------
+# Remote-only: project dependency installation
+# -------------------------------------------------------
+if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
+  echo "=== Session ready (local) ==="
+  exit 0
+fi
+
+git fetch --quiet origin 2>/dev/null || echo "(fetch skipped — no network or credentials)"
 
 # -------------------------------------------------------
 # ADD PROJECT-SPECIFIC SETUP BELOW

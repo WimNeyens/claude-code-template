@@ -55,10 +55,19 @@ Verify: `git lfs version`
 
 Used for managing pull requests, issues, and branches from the terminal.
 
+**Windows — try winget first, fall back to the MSI:**
+
 ```powershell
-# Windows
-winget install --id GitHub.cli
+# Run from an elevated PowerShell (Run as Administrator)
+winget install --id GitHub.cli -e --source winget
 ```
+
+If winget fails (common on corporate machines), download the MSI directly:
+
+1. Open https://github.com/cli/cli/releases/latest
+2. Scroll past the release notes to the **Assets** section (collapsed — click to expand)
+3. Download `gh_<version>_windows_amd64.msi`
+4. Double-click to install
 
 ```bash
 # macOS
@@ -76,6 +85,18 @@ gh auth login
 ```
 
 Verify: `gh --version`
+
+**Windows winget troubleshooting** (skip if you used the MSI):
+
+- *Installer exit code 1603* — the MSI needs Administrator rights. Re-run from an elevated PowerShell.
+- *`0x8a15000f : Data required by the source is missing`* — winget's source index is unreachable. Try `winget source reset --force` then `winget source update`. If that still fails on a corporate machine, it is almost always enterprise policy, a proxy, or TLS inspection blocking winget's CDN endpoints (`cdn.winget.microsoft.com`, `storeedgefd.dsx.mp.microsoft.com`). Diagnose with:
+  ```powershell
+  # Enterprise policy check
+  reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppInstaller" 2>$null
+  # Reachability check
+  Test-NetConnection cdn.winget.microsoft.com -Port 443
+  ```
+  On a restricted network, just use the MSI download above — it is served from GitHub's CDN, which is typically already allowed since `git clone` works.
 
 ### 4. Node.js LTS (if the project uses JavaScript/TypeScript)
 
@@ -278,6 +299,33 @@ Monitor: GitHub → Settings → Billing → Git LFS.
 ---
 
 ## Daily Git Workflow
+
+> **Golden rule:** never commit directly to `main`. Every change — even a one-line fix — goes on a feature branch and enters `main` via a pull request. This holds for solo work too; it keeps `main` always-deployable and gives you a built-in chance to review your own diff.
+
+### The loop at a glance
+
+```
+main  ●──────●──────●──────●   always-deployable, protected
+       \           /
+        ●────●────●            feature/<name> — short-lived, deleted after merge
+```
+
+1. Start from an up-to-date `main`: `git checkout main && git pull`
+2. Create a branch: `git checkout -b feature/<name>`
+3. Commit small logical changes on the branch
+4. Push the branch: `git push -u origin feature/<name>`
+5. Open a PR into `main` (use `/pr` or `gh pr create`)
+6. Merge via the PR (review, CI, discussion all happen here)
+7. Delete the branch (GitHub can do this automatically — see below)
+8. Back to step 1 for the next change
+
+### How branches isolate work
+
+Checking out a branch swaps your working directory to that branch's state — you can build, run, and test it as if it were the only version of the code. `main` on disk is unaffected until you switch back. This is why branches are the right place for experimental or in-progress work: nothing you do there can break `main`.
+
+Two practical notes:
+- Commit or `git stash` before switching branches, or Git will refuse the switch.
+- Need two branches checked out at once (e.g. to compare running versions)? Use `git worktree add <path> <branch>` — it gives you a second working directory without disturbing the first.
 
 ### Branch naming
 

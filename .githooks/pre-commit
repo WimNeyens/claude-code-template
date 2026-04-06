@@ -35,7 +35,7 @@ if [ -z "$DIFF" ]; then
 fi
 
 for pattern in "${PATTERNS[@]}"; do
-  matches=$(echo "$DIFF" | grep -iE "$pattern" || true)
+  matches=$(echo "$DIFF" | grep -iE -e "$pattern" || true)
   if [ -n "$matches" ]; then
     echo ""
     echo "BLOCKED: Potential secret detected (pattern: $pattern)"
