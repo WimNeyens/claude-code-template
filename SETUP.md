@@ -214,6 +214,8 @@ your-project-name/
 ├── .vscode/
 │   ├── extensions.json            # Recommended VS Code extensions
 │   └── settings.json              # Shared editor settings
+├── _inbox/                        # Drop zone for unfiled material (notes, exports, screenshots)
+├── _outbox/                       # Outbound drop zone for reusable snippets — future library harvester sweeps this
 ├── assets/
 │   └── screenshots/               # Images and binary files (via Git LFS)
 ├── docs/

@@ -126,6 +126,7 @@ Before executing any of the following, explicitly describe the action and ask th
 .mcp.json                      # Project-scoped MCP server configuration (no secrets)
 .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
 _inbox/                        # Drop zone for unfiled material — see _inbox/README.md
+_outbox/                       # Outbound drop zone for reusable snippets — see _outbox/README.md
 assets/
   screenshots/                 # UI screenshots, diagrams, and visual documentation
 docs/
@@ -157,6 +158,7 @@ Non-code knowledge lives in three places. Check them in this order when the user
 1. **`references/glossary.md`** — first stop for any unfamiliar term, acronym, or codename the user uses. Consult before asking for clarification.
 2. **`references/`** (other files) — external links (`sources.md`, `tools.md`, `research.md`), contacts (`people.md`), and small decisions (`decisions-log.md`). Prefer these over web search for authoritative docs.
 3. **`_inbox/`** — raw drops the user pasted but hasn't filed. Check when the user mentions material you can't otherwise locate ("the notes I dropped in"). Do not read every file automatically; only when relevant. When you process an inbox item into its permanent home (`docs/`, `references/`, etc.), suggest deleting the original.
+4. **`_outbox/`** — outbound twin of `_inbox/`. Reusable snippets captured during this project's work, staged for a future global library harvester. Unlike `_inbox/`, items here are kept, not deleted. See `.claude/rules/outbox-capture.md` for when and how to capture.
 
 When you learn a new project term, propose adding it to `references/glossary.md`. When you discover a useful external resource, propose adding it to the appropriate `references/*.md` file.
 
