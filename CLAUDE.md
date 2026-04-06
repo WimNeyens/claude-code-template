@@ -146,6 +146,7 @@ references/                    # External knowledge pointers and project vocabul
   people.md                    #   Stakeholders and contacts
   glossary.md                  #   Project terms, acronyms, codenames
   decisions-log.md             #   Lightweight decision log (sibling to ADRs)
+TASKS.md                       # Lightweight project backlog — surfaced at session start
 CONTRIBUTING.md                # Contribution guide — GitHub surfaces this before new issues/PRs
 LICENSE                        # License — replace placeholder with your chosen license
 SECURITY.md                    # Vulnerability reporting policy — GitHub surfaces this in Security tab

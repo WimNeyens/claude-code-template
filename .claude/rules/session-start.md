@@ -1,5 +1,13 @@
 # Session Start
 
+## Open tasks prompt
+
+When the SessionStart hook reports an "Open tasks (TASKS.md)" block, list those open tasks to the user in the **very first assistant reply** of the session — *before* the branching prompt. If the user picks one to work on, derive a short branch name from it and offer that name as option 2 of the branching prompt.
+
+If the hook does not include an open-tasks block, skip this step silently.
+
+Note: tasks and memory are different. `TASKS.md` is a backlog of work to do in this project; memory (`MEMORY.md`) captures how to collaborate with the user. Do not conflate them.
+
 ## Branching prompt on main
 
 When the SessionStart hook reports that the session started on `main` (look for an "ACTION REQUIRED" block in the SessionStart system reminder), surface the branching choice to the user in the **very first assistant reply** of the session.
