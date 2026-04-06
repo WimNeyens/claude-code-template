@@ -169,8 +169,7 @@ your-project-name/
 │   ├── workflows/
 │   │   ├── ci.yml                 # CI pipeline — runs on every push
 │   │   ├── codeql.yml             # Static analysis — activate by adding languages
-│   │   ├── claude-docs-watch.yml  # Weekly check for Claude Code doc changes
-│   │   └── gitleaks.yml           # Secret scanning on push and PRs
+│   │   └── claude-docs-watch.yml  # Weekly check for Claude Code doc changes
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug_report.md          # Bug report template
 │   │   └── feature_request.md     # Feature request template
