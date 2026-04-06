@@ -279,6 +279,33 @@ Monitor: GitHub → Settings → Billing → Git LFS.
 
 ## Daily Git Workflow
 
+> **Golden rule:** never commit directly to `main`. Every change — even a one-line fix — goes on a feature branch and enters `main` via a pull request. This holds for solo work too; it keeps `main` always-deployable and gives you a built-in chance to review your own diff.
+
+### The loop at a glance
+
+```
+main  ●──────●──────●──────●   always-deployable, protected
+       \           /
+        ●────●────●            feature/<name> — short-lived, deleted after merge
+```
+
+1. Start from an up-to-date `main`: `git checkout main && git pull`
+2. Create a branch: `git checkout -b feature/<name>`
+3. Commit small logical changes on the branch
+4. Push the branch: `git push -u origin feature/<name>`
+5. Open a PR into `main` (use `/pr` or `gh pr create`)
+6. Merge via the PR (review, CI, discussion all happen here)
+7. Delete the branch (GitHub can do this automatically — see below)
+8. Back to step 1 for the next change
+
+### How branches isolate work
+
+Checking out a branch swaps your working directory to that branch's state — you can build, run, and test it as if it were the only version of the code. `main` on disk is unaffected until you switch back. This is why branches are the right place for experimental or in-progress work: nothing you do there can break `main`.
+
+Two practical notes:
+- Commit or `git stash` before switching branches, or Git will refuse the switch.
+- Need two branches checked out at once (e.g. to compare running versions)? Use `git worktree add <path> <branch>` — it gives you a second working directory without disturbing the first.
+
 ### Branch naming
 
 | Type        | Pattern                           |

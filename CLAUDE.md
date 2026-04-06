@@ -8,12 +8,16 @@ This repository is currently in its initial setup phase. No source code, build c
 
 ## Git Workflow
 
-### Branch Naming
+### Branching workflow
 
-- Feature branches: `feature/<short-description>`
-- Bug fix branches: `fix/<short-description>`
-- AI-assisted branches: `claude/<task-id>-<description>`
-- Never push directly to `main` or `master`
+- **Never commit directly to `main`** — not even small fixes. Every change goes on a feature branch and enters `main` via a pull request. Applies to solo work too.
+- Before the first edit in a new task, confirm you are on a feature branch. If on `main`, run `git checkout -b <type>/<short-description>` first.
+- Branch name patterns:
+  - Feature branches: `feature/<short-description>`
+  - Bug fix branches: `fix/<short-description>`
+  - Docs-only changes: `docs/<short-description>`
+  - AI-assisted branches: `claude/<task-id>-<description>`
+- Branches are short-lived and deleted after merge — see `SETUP.md` for the full loop.
 
 ### Commit Messages
 
