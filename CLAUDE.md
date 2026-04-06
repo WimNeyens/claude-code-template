@@ -121,16 +121,40 @@ Before executing any of the following, explicitly describe the action and ask th
     codeql.yml                 # Static security analysis — add languages to matrix to activate
 .mcp.json                      # Project-scoped MCP server configuration (no secrets)
 .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
+_inbox/                        # Drop zone for unfiled material — see _inbox/README.md
 assets/
   screenshots/                 # UI screenshots, diagrams, and visual documentation
 docs/
   adr/                         # Architecture Decision Records (ADR-NNN-title.md)
+  analysis/                    # Investigations, trade-off studies, findings
   api/                         # API reference documentation
+  current-state/               # How things work today (baseline)
+  deliverables/                # Finished artifacts for external audiences
+    presentations/             #   Slide decks and talking points
+  future-state/                # Target design
+  roadmap/                     # Sequencing, phases, milestones
   runbooks/                    # Operational runbooks
+references/                    # External knowledge pointers and project vocabulary
+  sources.md                   #   Authoritative external docs
+  tools.md                     #   Dashboards, consoles, portals
+  research.md                  #   Articles, posts, papers
+  people.md                    #   Stakeholders and contacts
+  glossary.md                  #   Project terms, acronyms, codenames
+  decisions-log.md             #   Lightweight decision log (sibling to ADRs)
 CONTRIBUTING.md                # Contribution guide — GitHub surfaces this before new issues/PRs
 LICENSE                        # License — replace placeholder with your chosen license
 SECURITY.md                    # Vulnerability reporting policy — GitHub surfaces this in Security tab
 ```
+
+### Knowledge layout
+
+Non-code knowledge lives in three places. Check them in this order when the user references material you don't immediately see:
+
+1. **`references/glossary.md`** — first stop for any unfamiliar term, acronym, or codename the user uses. Consult before asking for clarification.
+2. **`references/`** (other files) — external links (`sources.md`, `tools.md`, `research.md`), contacts (`people.md`), and small decisions (`decisions-log.md`). Prefer these over web search for authoritative docs.
+3. **`_inbox/`** — raw drops the user pasted but hasn't filed. Check when the user mentions material you can't otherwise locate ("the notes I dropped in"). Do not read every file automatically; only when relevant. When you process an inbox item into its permanent home (`docs/`, `references/`, etc.), suggest deleting the original.
+
+When you learn a new project term, propose adding it to `references/glossary.md`. When you discover a useful external resource, propose adding it to the appropriate `references/*.md` file.
 
 ### Custom Commands and Skills
 
