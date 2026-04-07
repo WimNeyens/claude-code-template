@@ -15,7 +15,9 @@
       "Bash(python *)",
       "Bash(python3 *)",
       "Bash(pytest)",
-      "Bash(pytest *)"
+      "Bash(pytest *)",
+      "Edit(TASKS.md)",
+      "Write(TASKS.md)"
     ],
     "deny": [
       "Bash(git push --force*)",
