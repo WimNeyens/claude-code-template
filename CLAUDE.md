@@ -108,22 +108,32 @@ Before executing any of the following, explicitly describe the action and ask th
 
 ```
 .claude/
+  README.md                    # Index of every command and skill — keep in sync when adding/removing
   commands/                    # Custom slash commands — each .md file becomes a /command
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
-  hooks/                       # Hook scripts (session-start, etc.)
-  rules/                       # Topic-specific instructions (code-style, security, etc.)
+  hooks/                       # Hook scripts (session-start, pre-tool-use)
+  rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)
   settings.json                # Shared permissions and hooks
   settings.local.json          # Machine-specific MCP tokens (gitignored — never commit)
   settings.local.json.example  # Template for settings.local.json — committed, no secrets
 .githooks/
   pre-commit                   # Blocks commits containing common secret patterns
   commit-msg                   # Enforces subject line ≤ 50 chars, no trailing period
+  post-checkout                # Git LFS shim — DO NOT DELETE
+  post-commit                  # Git LFS shim — DO NOT DELETE
+  post-merge                   # Git LFS shim — DO NOT DELETE
+  pre-push                     # Git LFS shim — DO NOT DELETE
+                               # LFS shims are required because core.hooksPath = .githooks
+                               # overrides the default location where `git lfs install` writes them.
                                # Activate once per machine: git config core.hooksPath .githooks
 .github/
   ISSUE_TEMPLATE/              # Bug report and feature request templates
   workflows/
+    ci.yml                     # CI pipeline — runs on every push
     codeql.yml                 # Static security analysis — add languages to matrix to activate
-.mcp.json                      # Project-scoped MCP server configuration (no secrets)
+    claude-docs-watch.yml      # Weekly check for Claude Code docs changes
+    shellcheck.yml             # Lints .claude/hooks/ and .githooks/ on every PR
+.mcp.json                      # Project-scoped MCP server configuration — ships empty ({}); add servers as needed (no secrets)
 .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
 _inbox/                        # Drop zone for unfiled material — see _inbox/README.md
 _outbox/                       # Outbound drop zone for reusable snippets — see _outbox/README.md
@@ -139,6 +149,11 @@ docs/
   future-state/                # Target design
   roadmap/                     # Sequencing, phases, milestones
   runbooks/                    # Operational runbooks
+  concepts.md                  # How git, branches, environments, and Claude Code work together
+  setup-guide.md               # Meta: how to build a new template from scratch
+  start-cli.md                 # Getting started: Claude Code CLI
+  start-vscode.md              # Getting started: Claude Code VS Code Extension
+  start-web.md                 # Getting started: Claude Code on the Web
 references/                    # External knowledge pointers and project vocabulary
   sources.md                   #   Authoritative external docs
   tools.md                     #   Dashboards, consoles, portals

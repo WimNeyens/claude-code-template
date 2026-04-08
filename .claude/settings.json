@@ -19,6 +19,7 @@
       "Edit(TASKS.md)",
       "Write(TASKS.md)"
     ],
+    "_comment_deny": "Mirrored by .claude/hooks/pre-tool-use.sh — both layers are intentional defense-in-depth. If you change one, change the other. The hook also catches edge cases the prefix-glob deny rules cannot (e.g. 'rm -rfv', commands chained with &&).",
     "deny": [
       "Bash(git push --force*)",
       "Bash(git push * --force*)",
