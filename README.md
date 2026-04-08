@@ -49,11 +49,12 @@ your-project-name/
 │   ├── settings.json          # Shared Claude permissions, env vars, and hooks (committed)
 │   ├── settings.local.json    # Machine-specific tokens and MCP servers (gitignored)
 │   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code release notes
-│   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /write-docs
-│   ├── skills/                # Skills: /sync-template (reviews Claude Code docs)
-│   ├── rules/                 # Standing instructions: code-style.md, documentation.md
+│   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /security-audit, /write-docs, /task-add, /task-done, /task-list
+│   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /inbox-process, /sync-template
+│   ├── rules/                 # Standing instructions: code-style, documentation, mental-models, outbox-capture, session-start
+│   ├── README.md              # Index of commands and skills (keep in sync when adding/removing)
 │   └── hooks/
-│       ├── pre-tool-use.sh    # Blocks reading secrets and external fetches (defense-in-depth)
+│       ├── pre-tool-use.sh    # Blocks reading secrets, external fetches, rm -r* (defense-in-depth)
 │       └── session-start.sh   # Runs at the start of every Claude session
 ├── .github/
 │   ├── workflows/
@@ -64,7 +65,11 @@ your-project-name/
 │   └── dependabot.yml         # Automated dependency update PRs
 ├── .githooks/
 │   ├── pre-commit             # Blocks commits with secret patterns
-│   └── commit-msg             # Enforces commit message format (≤ 50 chars, no period)
+│   ├── commit-msg             # Enforces commit message format (≤ 50 chars, no period)
+│   ├── post-checkout          # Git LFS shim (required when core.hooksPath = .githooks)
+│   ├── post-commit            # Git LFS shim
+│   ├── post-merge             # Git LFS shim
+│   └── pre-push               # Git LFS shim
 ├── .vscode/
 │   ├── extensions.json        # Recommended VS Code extensions
 │   └── settings.json          # Shared editor settings
@@ -132,6 +137,13 @@ All AI-assisted branches follow the pattern `claude/<task-id>-<description>` and
 | `/debug` | Systematically investigates an issue — gather evidence, hypothesise, fix |
 | `/security-audit` | Runs a security audit — config, secrets, dependencies, CI, OWASP patterns |
 | `/write-docs` | Generates runbooks, ADRs, API references, or diagrams |
+| `/task-add` | Appends a new task to `TASKS.md` |
+| `/task-done` | Marks a task complete in `TASKS.md` |
+| `/task-list` | Lists open tasks from `TASKS.md` |
+| `/adr-new` | Scaffolds a new Architecture Decision Record in `docs/adr/` |
+| `/avoid-ai-writing` | Audits and rewrites prose to remove AI writing tells |
+| `/brainstorm` | Structured pre-planning conversation for vague or ambiguous tasks |
+| `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
 
 ---

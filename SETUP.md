@@ -1,5 +1,8 @@
 # Development Environment Setup
 
+**Audience:** someone who has cloned this template (or a project created from it) and wants to run it locally.
+For instructions on **building this template from scratch**, see [`docs/setup-guide.md`](docs/setup-guide.md).
+
 How to get this repository running on a new machine.
 Update this file whenever a new tool, step, or convention is introduced.
 
@@ -115,7 +118,26 @@ sudo apt install nodejs
 
 Verify: `node --version` and `npm --version`
 
-### 5. Claude Code CLI
+### 5. jq (required by Claude hooks)
+
+The `pre-tool-use.sh` hook parses tool input as JSON. Without `jq`, the secret-read and external-fetch guardrails fall back to a degraded mode and emit a warning at every tool call.
+
+```powershell
+# Windows
+winget install --id stedolan.jq -e
+```
+
+```bash
+# macOS
+brew install jq
+
+# Ubuntu / Debian
+sudo apt install jq
+```
+
+Verify: `jq --version`
+
+### 6. Claude Code CLI
 
 **Recommended — native installer (auto-updates):**
 
@@ -166,8 +188,21 @@ GitHub template repositories copy **files only** — not repo settings, branch p
 | Setting | Where | Why |
 |---|---|---|
 | **Automatically delete head branches** | Settings → General → Pull Requests | Keeps the branch list clean; merged branches serve no purpose once their commits are in `main`. |
+| **Branch protection rule on `main`** | Settings → Branches → Add branch ruleset | Server-side enforcement of "never commit to `main`". Without this, the rule lives only in `CLAUDE.md` and is convention-only. |
 
-Add more entries here as the template grows.
+### Branch protection — recommended ruleset
+
+Apply these to `main` (Settings → Branches → Add branch ruleset → Target branch: `main`):
+
+- **Require a pull request before merging** — block direct pushes
+- **Require approvals: 1** (or 0 for solo work, but keep the PR requirement)
+- **Dismiss stale pull request approvals when new commits are pushed**
+- **Require status checks to pass before merging** — select `ci` and `shellcheck` once they have run at least once
+- **Require linear history** — no merge commits, keeps `git log` readable
+- **Block force pushes**
+- **Restrict deletions**
+
+This makes the "feature branches only" rule from `CLAUDE.md` enforced server-side, not just by AI politeness.
 
 ---
 
@@ -180,29 +215,40 @@ your-project-name/
 │   ├── settings.local.json        # Machine-specific MCP servers and tokens (gitignored)
 │   ├── settings.local.json.example  # Template for settings.local.json — copy and fill in
 │   ├── docs-baseline.hash         # SHA-256 of last-reviewed Claude Code release notes
+│   ├── README.md                  # Index of every command and skill (keep in sync when adding/removing)
 │   ├── commands/
-│   │   ├── commit-message.md      # /commit-message slash command
+│   │   ├── commit-message.md      # /commit-message — drafts a commit message from current changes
 │   │   ├── debug.md               # /debug — systematic issue investigation
 │   │   ├── explain.md             # /explain — explain code, files, or architecture
 │   │   ├── pr.md                  # /pr — create a pull request from current branch
-│   │   ├── review-code.md         # /review-code slash command
+│   │   ├── review-code.md         # /review-code — review current branch changes
 │   │   ├── security-audit.md      # /security-audit — run a security audit of the project
+│   │   ├── task-add.md            # /task-add — append a new task to TASKS.md
+│   │   ├── task-done.md           # /task-done — mark a task complete in TASKS.md
+│   │   ├── task-list.md           # /task-list — show open tasks from TASKS.md
 │   │   ├── test.md                # /test — write tests for new or changed code
 │   │   └── write-docs.md          # /write-docs — generates runbooks, ADRs, API docs
 │   ├── skills/
-│   │   └── sync-template/
-│   │       └── SKILL.md           # /sync-template — reviews Claude Code docs, updates template
+│   │   ├── adr-new/SKILL.md       # /adr-new — scaffold a new ADR in docs/adr/
+│   │   ├── avoid-ai-writing/SKILL.md  # /avoid-ai-writing — audit prose for AI tells
+│   │   ├── brainstorm/SKILL.md    # /brainstorm — pre-planning conversation for vague tasks
+│   │   ├── inbox-process/SKILL.md # /inbox-process — walk _inbox/ and propose filing
+│   │   └── sync-template/SKILL.md # /sync-template — reviews Claude Code docs, updates template
 │   ├── rules/
 │   │   ├── code-style.md          # Code style standards
-│   │   └── documentation.md       # Doc standards: audience levels, templates, style rules
+│   │   ├── documentation.md       # Doc standards: audience levels, templates, style rules
+│   │   ├── mental-models.md       # Calibration framework for collaboration
+│   │   ├── outbox-capture.md      # When to save snippets to _outbox/
+│   │   └── session-start.md       # First-reply behavior (open tasks, branching prompt)
 │   └── hooks/
-│       ├── pre-tool-use.sh        # Blocks reading secrets and external fetches (defense-in-depth)
-│       └── session-start.sh       # Prints git status and context at session start
+│       ├── pre-tool-use.sh        # Blocks secrets, external fetches, rm -r* (defense-in-depth)
+│       └── session-start.sh       # Prints git status, open tasks, and branch warnings
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml                 # CI pipeline — runs on every push
 │   │   ├── codeql.yml             # Static analysis — activate by adding languages
-│   │   └── claude-docs-watch.yml  # Weekly check for Claude Code doc changes
+│   │   ├── claude-docs-watch.yml  # Weekly check for Claude Code doc changes
+│   │   └── shellcheck.yml         # Lints .claude/hooks/ and .githooks/ on every PR
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug_report.md          # Bug report template
 │   │   └── feature_request.md     # Feature request template
@@ -210,7 +256,11 @@ your-project-name/
 │   └── dependabot.yml             # Automated dependency update PRs
 ├── .githooks/
 │   ├── pre-commit                 # Blocks commits containing common secret patterns
-│   └── commit-msg                 # Enforces subject line length (≤ 50 chars) and format
+│   ├── commit-msg                 # Enforces subject line length (≤ 50 chars) and format
+│   ├── post-checkout              # Git LFS shim — required because core.hooksPath = .githooks
+│   ├── post-commit                # Git LFS shim
+│   ├── post-merge                 # Git LFS shim
+│   └── pre-push                   # Git LFS shim
 ├── .vscode/
 │   ├── extensions.json            # Recommended VS Code extensions
 │   └── settings.json              # Shared editor settings
@@ -223,7 +273,10 @@ your-project-name/
 │   ├── api/                       # API reference documentation
 │   ├── runbooks/                  # Operational runbooks
 │   ├── concepts.md                # How repos, branches, environments and Claude Code work
-│   └── setup-guide.md             # How to create a new project from scratch using this template
+│   ├── setup-guide.md             # How to create a new project from scratch using this template
+│   ├── start-cli.md               # Getting started: Claude Code CLI
+│   ├── start-vscode.md            # Getting started: Claude Code VS Code Extension
+│   └── start-web.md               # Getting started: Claude Code on the Web
 ├── .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
 ├── .gitattributes                 # Line ending rules and Git LFS routing
 ├── .gitignore                     # Files excluded from version control
@@ -238,12 +291,13 @@ your-project-name/
 
 ## Install Git Hooks
 
-This repo ships two hooks in `.githooks/`:
+This repo ships these hooks in `.githooks/`:
 
 | Hook | What it does |
 |------|-------------|
 | `pre-commit` | Blocks commits containing common secret patterns (API keys, tokens, passwords) |
 | `commit-msg` | Enforces subject line ≤ 50 characters, no trailing period, blank line before body |
+| `post-checkout`, `post-commit`, `post-merge`, `pre-push` | Git LFS shims. Required because setting `core.hooksPath = .githooks` overrides the default location where `git lfs install` writes its hooks. **Do not delete** — without them, LFS tracking silently breaks. |
 
 Run once after cloning:
 

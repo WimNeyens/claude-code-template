@@ -1,6 +1,9 @@
 # Default Template Setup Guide
 ## GitHub + Claude Code (Web · CLI · VSCode) — From Scratch
 
+**Audience:** someone building a new project template from scratch (meta).
+For setting up an **already-cloned** project on a new machine, see [`../SETUP.md`](../SETUP.md) instead.
+
 This guide builds a fully functional, reusable project template. No project-specific content.
 Complete every phase in order. Skipping steps causes problems later.
 

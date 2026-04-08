@@ -28,6 +28,8 @@ CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
 if [ -f "TASKS.md" ]; then
   OPEN_TASKS=$(grep -E '^\s*-\s*\[ \]' TASKS.md || true)
   if [ -n "$OPEN_TASKS" ]; then
+    # The "Open tasks" heading below is the source of truth — .claude/rules/session-start.md
+    # tells Claude to look for this section. Do not rename without updating the rule.
     echo "--- Open tasks (TASKS.md) ---"
     echo "$OPEN_TASKS"
     echo ""

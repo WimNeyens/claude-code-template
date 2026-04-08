@@ -2,9 +2,11 @@
 
 ## Open tasks prompt
 
-When the SessionStart hook reports an "Open tasks (TASKS.md)" block, list those open tasks to the user in the **very first assistant reply** of the session — *before* the branching prompt. If the user picks one to work on, derive a short branch name from it and offer that name as option 2 of the branching prompt.
+When the SessionStart hook output contains an open-tasks section (a block listing items from `TASKS.md`), surface those tasks to the user in the **very first assistant reply** of the session — *before* the branching prompt. If the user picks one to work on, derive a short branch name from it and offer that name as option 2 of the branching prompt.
 
-If the hook does not include an open-tasks block, skip this step silently.
+If the hook does not include an open-tasks section, skip this step silently.
+
+> Note: the exact heading the hook prints lives in `.claude/hooks/session-start.sh`. Match on intent ("there are open tasks listed"), not on the literal string, so the rule and the hook can evolve independently.
 
 Note: tasks and memory are different. `TASKS.md` is a backlog of work to do in this project; memory (`MEMORY.md`) captures how to collaborate with the user. Do not conflate them.
 

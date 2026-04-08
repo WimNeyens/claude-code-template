@@ -22,6 +22,9 @@ _inbox/images/*
 !_inbox/images/.gitkeep
 _inbox/files/*
 !_inbox/files/.gitkeep
+# _outbox is intentionally tracked (snippet staging for cross-project harvest);
+# only _outbox/private/ contents are ignored. Asymmetric with _inbox/ on purpose —
+# see _outbox/README.md and .claude/rules/outbox-capture.md.
 _outbox/private/*
 !_outbox/private/.gitkeep
 
