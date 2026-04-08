@@ -10,8 +10,20 @@
 *.pfx
 secrets/
 credentials/
-_inbox/private/
-_outbox/private/
+# _inbox: ship folder structure, ignore all dropped content
+_inbox/*
+!_inbox/README.md
+!_inbox/private/
+!_inbox/images/
+!_inbox/files/
+_inbox/private/*
+!_inbox/private/.gitkeep
+_inbox/images/*
+!_inbox/images/.gitkeep
+_inbox/files/*
+!_inbox/files/.gitkeep
+_outbox/private/*
+!_outbox/private/.gitkeep
 
 # ============================================================
 # OS FILES
