@@ -21,13 +21,15 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
 
-      - name: Lint Claude hooks (bash)
-        run: shellcheck --shell=bash .claude/hooks/*.sh
+      - name: Lint Claude hooks
+        run: shellcheck .claude/hooks/*.sh
 
-      - name: Lint git hooks (sh)
-        # .githooks/* are POSIX sh (LFS shims + secret scanner). Lint as sh.
+      - name: Lint git hooks
+        # .githooks/ contains a mix: pre-commit and commit-msg are bash; the LFS
+        # shims (post-*, pre-push) are POSIX sh. Let shellcheck infer the shell
+        # from each file's shebang — do not pass --shell.
         run: |
           for f in .githooks/*; do
             [ -f "$f" ] || continue
-            shellcheck --shell=sh "$f"
+            shellcheck "$f"
           done
