@@ -29,8 +29,24 @@ Newer format with YAML frontmatter, supporting files, and subagent execution. Ea
 | `/adr-new` | Scaffolds a new Architecture Decision Record in `docs/adr/` |
 | `/avoid-ai-writing` | Audits and rewrites prose to remove AI writing tells |
 | `/brainstorm` | Structured pre-planning conversation for vague or ambiguous tasks |
+| `/changelog` | Generates or updates `CHANGELOG.md` from git history (Keep a Changelog format) |
+| `/diagram` | Scaffolds a Mermaid diagram (sequence, flowchart, ER, state) into a Markdown file |
 | `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
+| `/release-notes` | Drafts human-facing release notes from git history, grouped by theme |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
+
+## Optional upstream skill packs
+
+Anthropic ships maintained skill packs for common document formats. Enable the ones you need — do not copy them into this template.
+
+| Pack | What it does |
+|---|---|
+| `pdf` | Read, extract, and fill PDF files |
+| `docx` | Create and edit Word documents |
+| `xlsx` | Create and edit Excel spreadsheets |
+| `pptx` | Create and edit PowerPoint presentations |
+
+These auto-trigger by filename or user intent once enabled in your Claude Code installation. See the official skills catalog for installation details.
 
 ## Rules (`.claude/rules/`)
 

@@ -111,6 +111,8 @@ Before executing any of the following, explicitly describe the action and ask th
   README.md                    # Index of every command and skill — keep in sync when adding/removing
   commands/                    # Custom slash commands — each .md file becomes a /command
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
+                               # adr-new, avoid-ai-writing, brainstorm, changelog, diagram,
+                               # inbox-process, release-notes, sync-template
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)
   settings.json                # Shared permissions and hooks

@@ -50,7 +50,7 @@ your-project-name/
 │   ├── settings.local.json    # Machine-specific tokens and MCP servers (gitignored)
 │   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code release notes
 │   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /security-audit, /write-docs, /task-add, /task-done, /task-list
-│   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /inbox-process, /sync-template
+│   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /changelog, /diagram, /inbox-process, /release-notes, /sync-template
 │   ├── rules/                 # Standing instructions: code-style, documentation, mental-models, outbox-capture, session-start
 │   ├── README.md              # Index of commands and skills (keep in sync when adding/removing)
 │   └── hooks/
@@ -59,7 +59,9 @@ your-project-name/
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml             # CI pipeline — runs on every push
-│   │   └── claude-docs-watch.yml  # Weekly check for Claude Code doc changes
+│   │   ├── codeql.yml         # Static security analysis — add languages to activate
+│   │   ├── claude-docs-watch.yml  # Weekly check for Claude Code doc changes
+│   │   └── shellcheck.yml     # Lints .claude/hooks/ and .githooks/ on every PR
 │   ├── ISSUE_TEMPLATE/        # Bug report and feature request templates
 │   ├── pull_request_template.md
 │   └── dependabot.yml         # Automated dependency update PRs
@@ -73,25 +75,36 @@ your-project-name/
 ├── .vscode/
 │   ├── extensions.json        # Recommended VS Code extensions
 │   └── settings.json          # Shared editor settings
+├── _inbox/                    # Drop zone for unfiled material (gitignored except scaffolding)
+├── _outbox/                   # Outbound drop zone for reusable snippets (tracked, harvested cross-project)
 ├── assets/
 │   └── screenshots/           # Images and binary files (via Git LFS)
 ├── docs/
 │   ├── adr/                   # Architecture Decision Records
+│   ├── analysis/              # Investigations, trade-off studies, findings
 │   ├── api/                   # API reference documentation
+│   ├── current-state/         # How things work today (baseline)
+│   ├── deliverables/          # Finished artifacts for external audiences
+│   ├── future-state/          # Target design
+│   ├── roadmap/               # Sequencing, phases, milestones
 │   ├── runbooks/              # Operational runbooks
 │   ├── concepts.md            # How repos, branches, environments and Claude Code work
 │   ├── setup-guide.md         # How to create a new project from scratch using this template
 │   ├── start-cli.md           # Getting started: Claude Code CLI
 │   ├── start-vscode.md        # Getting started: Claude Code VS Code Extension
 │   └── start-web.md           # Getting started: Claude Code on the Web
+├── references/                # External knowledge: sources, tools, research, people, glossary, decisions-log
+├── .editorconfig              # Editor-neutral formatting rules
 ├── .gitattributes             # Line ending rules and Git LFS routing
 ├── .gitignore                 # Files excluded from version control
+├── .mcp.json                  # Project-scoped MCP servers — ships empty, add as needed (no secrets)
 ├── CLAUDE.md                  # AI assistant instructions and project conventions
 ├── CONTRIBUTING.md            # How to contribute
 ├── LICENSE                    # License — replace placeholder before publishing
 ├── README.md                  # This file
 ├── SECURITY.md                # Vulnerability reporting policy
-└── SETUP.md                   # How to get started on a new machine
+├── SETUP.md                   # How to get started on a new machine
+└── TASKS.md                   # Lightweight project backlog — surfaced at session start
 ```
 
 ---
@@ -143,7 +156,10 @@ All AI-assisted branches follow the pattern `claude/<task-id>-<description>` and
 | `/adr-new` | Scaffolds a new Architecture Decision Record in `docs/adr/` |
 | `/avoid-ai-writing` | Audits and rewrites prose to remove AI writing tells |
 | `/brainstorm` | Structured pre-planning conversation for vague or ambiguous tasks |
+| `/changelog` | Generates or updates `CHANGELOG.md` from git history (Keep a Changelog format) |
+| `/diagram` | Scaffolds a Mermaid diagram (sequence, flowchart, ER, state) into a Markdown file |
 | `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
+| `/release-notes` | Drafts human-facing release notes from git history, grouped by theme |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
 
 ---
