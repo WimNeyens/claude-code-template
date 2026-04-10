@@ -1,28 +1,31 @@
 # Session Start
 
-## Open tasks prompt
+## Current branch
 
-When the SessionStart hook output contains an open-tasks section (a block listing items from `TASKS.md`), surface those tasks to the user in the **very first assistant reply** of the session — *before* the branching prompt. If the user picks one to work on, derive a short branch name from it and offer that name as option 2 of the branching prompt.
+**Always** show the current branch in the first reply. Use the branch name from the SessionStart hook's git status (the line starting with `##`).
 
-If the hook does not include an open-tasks section, skip this step silently.
+- On a feature branch: `Branch: \`feature/some-task\`` (informational, no action needed)
+- On main: show the branch **and** a branching prompt (see below)
 
-> Note: the exact heading the hook prints lives in `.claude/hooks/session-start.sh`. Match on intent ("there are open tasks listed"), not on the literal string, so the rule and the hook can evolve independently.
+## Branching prompt (main only)
 
-Note: tasks and memory are different. `TASKS.md` is a backlog of work to do in this project; memory (`MEMORY.md`) captures how to collaborate with the user. Do not conflate them.
-
-## Branching prompt on main
-
-When the SessionStart hook reports that the session started on `main` (look for an "ACTION REQUIRED" block in the SessionStart system reminder), surface the branching choice to the user in the **very first assistant reply** of the session.
-
-Do this even when the user's opening message is unrelated to editing files — a greeting, a question about the repo, a chat about tooling. Do not wait "until the first edit," because a whole conversation can pass before an edit is proposed, and the user deserves to know the repo state up front.
-
-The first reply should offer the three options from `CLAUDE.md`:
+When the session started on `main`, add a branching choice after the branch line:
 
 1. Continue work on an existing branch (list them if any exist)
 2. Create a new feature branch (suggest a name once the task is known)
 3. Proceed on `main` anyway (explicit override, rare)
 
-Keep the prompt short. After presenting it, answer whatever else the user asked.
+Do this even when the user's opening message is unrelated to editing files.
+
+## Open tasks prompt
+
+When the SessionStart hook reports an "Open tasks (TASKS.md)" block, list those open tasks to the user in the first reply — after the branch info. If the user picks one to work on and is on main, derive a short branch name from it and offer that name as option 2 of the branching prompt.
+
+If the hook does not include an open-tasks block, skip this step silently.
+
+> Note: the exact heading the hook prints lives in `.claude/hooks/session-start.sh`. Match on intent ("there are open tasks listed"), not on the literal string, so the rule and the hook can evolve independently.
+
+Note: tasks and memory are different. `TASKS.md` is a backlog of work to do in this project; memory (`MEMORY.md`) captures how to collaborate with the user. Do not conflate them.
 
 ## Template promotion prompt
 
