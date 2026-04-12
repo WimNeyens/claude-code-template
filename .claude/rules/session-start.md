@@ -41,3 +41,12 @@ Apply this whenever:
 - You are about to save a feedback or project memory that is not user-specific
 
 One-line prompt is enough: "Should this go in the template as a rule, or keep it as project memory only?"
+
+## Pull before branching
+
+When creating a new branch mid-session — especially after a PR was just merged on GitHub — always
+run `git switch main && git pull` before `git switch -c <new-branch>`. The merge commit is created
+on the remote and the local main does not auto-update. Branching off stale main risks conflicts
+later.
+
+This is a mechanical step. Do not ask the user — just do it.
