@@ -111,8 +111,9 @@ Before executing any of the following, explicitly describe the action and ask th
   README.md                    # Index of every command and skill — keep in sync when adding/removing
   commands/                    # Custom slash commands — each .md file becomes a /command
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
-                               # adr-new, avoid-ai-writing, brainstorm, changelog, diagram,
-                               # harvest, inbox-process, release-notes, sync-template
+                               # adr-new, avoid-ai-writing, brainstorm, changelog,
+                               # consistency-check, diagram, harvest, inbox-process,
+                               # release-notes, sync-template
   skills/harvest/SKILL.md      # Audit spin-off for template-worthy changes; generate paste-prompts
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)

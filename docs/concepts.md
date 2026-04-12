@@ -617,3 +617,41 @@ A private GitHub repo is very safe if you use it correctly. The platform itself 
 - Let Claude manage branches and commits — it follows your `CLAUDE.md` conventions automatically
 - Use hooks for ambient automation (startup context, logging, notifications) — not for AI control flow
 - Run `/sync-template` periodically to review Claude Code release notes and keep this template current
+
+## 16. The Template Feedback Loop
+
+A template is only useful if it stays current. Three mechanisms keep knowledge flowing in the right directions:
+
+```
+Claude Code docs ──sync-template──▶ Template repo ──fork──▶ Spin-off project
+                                        ▲                         │
+                                        └────── harvest ──────────┘
+                                                                  │
+                                                         _outbox (capture)
+                                                                  ▼
+                                                        Future global library
+```
+
+### sync-template (inbound)
+
+The `/sync-template` skill fetches Claude Code release notes and compares them against template files. When Claude Code ships new features, deprecations, or best-practice changes, the skill identifies gaps and proposes updates. The weekly `claude-docs-watch.yml` GitHub Action monitors for doc changes and opens an issue when they're detected, prompting a `/sync-template` run.
+
+Direction: external Claude Code docs into the template.
+
+### _outbox (capture)
+
+During normal project work, reusable code snippets and patterns are saved to `_outbox/` following the rules in `.claude/rules/outbox-capture.md`. This is a per-project staging area. A future global library harvester will sweep across projects to collect and index these snippets.
+
+Direction: project work into a cross-project library.
+
+### harvest (spin-off to template)
+
+When the template is forked into a real project, that project evolves — new rules, skills, documentation sections, structural patterns. The `/harvest` skill audits the spin-off for concepts worth transferring back. It produces paste-prompts (self-contained text blocks the user pastes into a Claude session in the template repo) so transfer requires no cross-repo git operations.
+
+The `/harvest flag` subcommand and the `harvest-flag.md` rule enable conversational bookmarking during normal work. When you say "save this for the template" or similar, Claude appends an entry to the harvest queue. The next `/harvest audit` picks it up alongside diff-discovered changes.
+
+Direction: spin-off project back into the template.
+
+### Keeping it all in sync
+
+After adding or removing commands, skills, rules, or structural directories, run `/consistency-check` to verify that all index files (`.claude/README.md`, `CLAUDE.md`, `SETUP.md`, `CONTRIBUTING.md`, glossary) agree with each other and with the actual file tree. The skill reports mismatches as a checklist — it does not auto-fix.
