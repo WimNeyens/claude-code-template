@@ -58,8 +58,8 @@ Topic-specific instructions. Claude reads all rule files at session start.
 |---|---|
 | `code-style.md` | Indentation, comments, abstractions, validation boundaries |
 | `documentation.md` | Audience levels, doc types, templates, style rules |
-| `mental-models.md` | Calibration framework — domain, context, intent, trust/handoff |
 | `harvest-flag.md` | Conversational flagging — bookmarks items for next `/harvest` audit |
+| `mental-models.md` | Calibration framework — domain, context, intent, trust/handoff |
 | `outbox-capture.md` | When and how to save reusable snippets to `_outbox/` |
 | `session-start.md` | First-reply behavior — open tasks, branching prompt, template promotion |
 

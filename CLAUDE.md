@@ -114,7 +114,6 @@ Before executing any of the following, explicitly describe the action and ask th
                                # adr-new, avoid-ai-writing, brainstorm, changelog,
                                # consistency-check, diagram, harvest, inbox-process,
                                # release-notes, sync-template
-  skills/harvest/SKILL.md      # Audit spin-off for template-worthy changes; generate paste-prompts
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)
   rules/harvest-flag.md        # Conversational flagging for template harvest

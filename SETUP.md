@@ -228,8 +228,6 @@ your-project-name/
 │   │   ├── task-list.md           # /task-list — show open tasks from TASKS.md
 │   │   ├── test.md                # /test — write tests for new or changed code
 │   │   └── write-docs.md          # /write-docs — generates runbooks, ADRs, API docs
-│   ├── template-baseline.md       # Fork-time snapshot — inherited files, commit SHA, template URL
-│   ├── harvest-queue.md           # Transient harvest flag queue (gitignored)
 │   ├── skills/
 │   │   ├── adr-new/SKILL.md       # /adr-new — scaffold a new ADR in docs/adr/
 │   │   ├── avoid-ai-writing/SKILL.md  # /avoid-ai-writing — audit prose for AI tells
@@ -248,6 +246,8 @@ your-project-name/
 │   │   ├── mental-models.md       # Calibration framework for collaboration
 │   │   ├── outbox-capture.md      # When to save snippets to _outbox/
 │   │   └── session-start.md       # First-reply behavior (open tasks, branching prompt)
+│   ├── template-baseline.md       # Fork-time snapshot — inherited files, commit SHA, template URL
+│   ├── harvest-queue.md           # Transient harvest flag queue (gitignored)
 │   └── hooks/
 │       ├── pre-tool-use.sh        # Blocks secrets, external fetches, rm -r* (defense-in-depth)
 │       └── session-start.sh       # Prints git status, open tasks, and branch warnings
