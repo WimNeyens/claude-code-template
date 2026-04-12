@@ -37,6 +37,8 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 
 ## L
 
+- **library** — A project-independent folder (`C:\DEV\Claude\library\`) that holds reusable building blocks across all projects: scripts, harvest paste-prompts, exported plans, and skill templates. Populated by `/export-prompt` or manual saves. See also: *_outbox*, *harvest*, *paste-prompt*.
+
 ## M
 
 ## N
