@@ -31,6 +31,7 @@ Newer format with YAML frontmatter, supporting files, and subagent execution. Ea
 | `/brainstorm` | Structured pre-planning conversation for vague or ambiguous tasks |
 | `/changelog` | Generates or updates `CHANGELOG.md` from git history (Keep a Changelog format) |
 | `/diagram` | Scaffolds a Mermaid diagram (sequence, flowchart, ER, state) into a Markdown file |
+| `/harvest` | Audits spin-off project for template-worthy changes; generates paste-prompts for transfer |
 | `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
 | `/release-notes` | Drafts human-facing release notes from git history, grouped by theme |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
@@ -57,6 +58,7 @@ Topic-specific instructions. Claude reads all rule files at session start.
 | `code-style.md` | Indentation, comments, abstractions, validation boundaries |
 | `documentation.md` | Audience levels, doc types, templates, style rules |
 | `mental-models.md` | Calibration framework — domain, context, intent, trust/handoff |
+| `harvest-flag.md` | Conversational flagging — bookmarks items for next `/harvest` audit |
 | `outbox-capture.md` | When and how to save reusable snippets to `_outbox/` |
 | `session-start.md` | First-reply behavior — open tasks, branching prompt, template promotion |
 
