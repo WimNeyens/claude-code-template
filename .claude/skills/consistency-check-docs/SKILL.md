@@ -32,9 +32,11 @@ Compare what the documentation claims exists against what actually exists on dis
 
 6. **Audit `references/glossary.md` coverage.** Collect terms that appear in skill YAML `description` fields and rule filenames. Check whether each project-specific term has a glossary entry. Skip generic English words; focus on template-specific vocabulary.
 
-7. **Cross-check consistency between index files.** Verify that `.claude/README.md`, `CLAUDE.md`, and `SETUP.md` agree on the same set of commands, skills, rules, and hooks. Report any item that appears in one index but not another.
+7. **Audit root `README.md`.** Read `README.md`. Check the "Repository Layout" code block and the "Slash commands available in every session" table against the actual file tree, using the same approach as steps 2–4. Report mismatches.
 
-8. **Present the report.** Output a single checklist grouped by source file:
+8. **Cross-check consistency between index files.** Verify that `.claude/README.md`, `CLAUDE.md`, `SETUP.md`, and `README.md` agree on the same set of commands, skills, rules, and hooks. Report any item that appears in one index but not another.
+
+9. **Present the report.** Output a single checklist grouped by source file:
 
    ```
    ## Consistency Report
@@ -60,7 +62,7 @@ Compare what the documentation claims exists against what actually exists on dis
    - [ ] Skill `/harvest` in .claude/README.md but missing from SETUP.md
    ```
 
-9. **Do not fix anything.** The report is the deliverable. The user decides what to act on.
+10. **Do not fix anything.** The report is the deliverable. The user decides what to act on.
 
 ## What this skill does NOT do
 
