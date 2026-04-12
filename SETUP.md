@@ -233,8 +233,9 @@ your-project-name/
 │   │   ├── avoid-ai-writing/SKILL.md  # /avoid-ai-writing — audit prose for AI tells
 │   │   ├── brainstorm/SKILL.md    # /brainstorm — pre-planning conversation for vague tasks
 │   │   ├── changelog/SKILL.md     # /changelog — generate or update CHANGELOG.md from git history
-│   │   ├── consistency-check/SKILL.md # /consistency-check — audit docs against actual file tree
+│   │   ├── consistency-check-docs/SKILL.md # /consistency-check-docs — audit docs against actual file tree
 │   │   ├── diagram/SKILL.md       # /diagram — scaffold a Mermaid diagram into a Markdown file
+│   │   ├── export-prompt/SKILL.md # /export-prompt — export prompts/plans to cross-project library
 │   │   ├── harvest/SKILL.md       # /harvest — audit spin-off for template-worthy changes
 │   │   ├── inbox-process/SKILL.md # /inbox-process — walk _inbox/ and propose filing
 │   │   ├── release-notes/SKILL.md # /release-notes — draft human-facing release notes from git history

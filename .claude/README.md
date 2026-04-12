@@ -30,8 +30,9 @@ Newer format with YAML frontmatter, supporting files, and subagent execution. Ea
 | `/avoid-ai-writing` | Audits and rewrites prose to remove AI writing tells |
 | `/brainstorm` | Structured pre-planning conversation for vague or ambiguous tasks |
 | `/changelog` | Generates or updates `CHANGELOG.md` from git history (Keep a Changelog format) |
-| `/consistency-check` | Audits documentation files against the actual file tree; reports mismatches |
+| `/consistency-check-docs` | Audits documentation files against the actual file tree; reports mismatches |
 | `/diagram` | Scaffolds a Mermaid diagram (sequence, flowchart, ER, state) into a Markdown file |
+| `/export-prompt` | Exports a harvest paste-prompt, plan, or skill template to the cross-project library |
 | `/harvest` | Audits spin-off project for template-worthy changes; generates paste-prompts for transfer |
 | `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
 | `/release-notes` | Drafts human-facing release notes from git history, grouped by theme |

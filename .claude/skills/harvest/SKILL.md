@@ -64,6 +64,8 @@ Identify what this spin-off project has added or changed relative to the templat
 
    The marker lines themselves are NOT part of the paste — only the content between them.
 
+10. **Suggest export.** After generating paste-prompts, suggest: "Run `/export-prompt harvest` to save these paste-prompts to your library for future reuse."
+
 ### Mode 2: Flag (`/harvest flag <description>`)
 
 1. If `.claude/harvest-queue.md` does not exist, create it with the header:

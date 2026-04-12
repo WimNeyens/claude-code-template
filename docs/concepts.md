@@ -652,6 +652,12 @@ The `/harvest flag` subcommand and the `harvest-flag.md` rule enable conversatio
 
 Direction: spin-off project back into the template.
 
+### library (cross-project archive)
+
+Harvest paste-prompts and implementation plans take real effort to produce but are ephemeral — they live in chat or get overwritten. The `/export-prompt` skill saves them to `C:\DEV\Claude\library\`, a project-independent folder that holds reusable building blocks across all projects: scripts, prompts, plans, and skill templates. One `.md` file per item, organized by type (`prompts/harvest/`, `prompts/skills/`, `plans/`, `scripts/<language>/`).
+
+Direction: any project into a permanent cross-project library.
+
 ### Keeping it all in sync
 
-After adding or removing commands, skills, rules, or structural directories, run `/consistency-check` to verify that all index files (`.claude/README.md`, `CLAUDE.md`, `SETUP.md`, `CONTRIBUTING.md`, glossary) agree with each other and with the actual file tree. The skill reports mismatches as a checklist — it does not auto-fix.
+After adding or removing commands, skills, rules, or structural directories, run `/consistency-check-docs` to verify that all index files (`.claude/README.md`, `CLAUDE.md`, `SETUP.md`, `CONTRIBUTING.md`, glossary) agree with each other and with the actual file tree. The skill reports mismatches as a checklist — it does not auto-fix.

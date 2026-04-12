@@ -112,7 +112,7 @@ Before executing any of the following, explicitly describe the action and ask th
   commands/                    # Custom slash commands — each .md file becomes a /command
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
                                # adr-new, avoid-ai-writing, brainstorm, changelog,
-                               # consistency-check, diagram, harvest, inbox-process,
+                               # consistency-check-docs, diagram, export-prompt, harvest, inbox-process,
                                # release-notes, sync-template
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)
