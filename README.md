@@ -50,8 +50,10 @@ your-project-name/
 │   ├── settings.local.json    # Machine-specific tokens and MCP servers (gitignored)
 │   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code release notes
 │   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /security-audit, /write-docs, /task-add, /task-done, /task-list
-│   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /changelog, /diagram, /inbox-process, /release-notes, /sync-template
-│   ├── rules/                 # Standing instructions: code-style, documentation, mental-models, outbox-capture, session-start
+│   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /changelog, /consistency-check-docs, /diagram, /export-prompt, /harvest, /inbox-process, /release-notes, /sync-template
+│   ├── rules/                 # Standing instructions: code-style, documentation, harvest-flag, mental-models, outbox-capture, session-start
+│   ├── template-baseline.md   # Fork-time snapshot — inherited files, commit SHA, template URL
+│   ├── harvest-queue.md       # Transient harvest flag queue (gitignored)
 │   ├── README.md              # Index of commands and skills (keep in sync when adding/removing)
 │   └── hooks/
 │       ├── pre-tool-use.sh    # Blocks reading secrets, external fetches, rm -r* (defense-in-depth)
@@ -85,6 +87,8 @@ your-project-name/
 │   ├── api/                   # API reference documentation
 │   ├── current-state/         # How things work today (baseline)
 │   ├── deliverables/          # Finished artifacts for external audiences
+│   │   └── presentations/     #   Slide decks and talking points
+│   ├── design/                # Design documents — plans, architecture sketches, mechanism designs
 │   ├── future-state/          # Target design
 │   ├── roadmap/               # Sequencing, phases, milestones
 │   ├── runbooks/              # Operational runbooks
@@ -157,7 +161,10 @@ All AI-assisted branches follow the pattern `claude/<task-id>-<description>` and
 | `/avoid-ai-writing` | Audits and rewrites prose to remove AI writing tells |
 | `/brainstorm` | Structured pre-planning conversation for vague or ambiguous tasks |
 | `/changelog` | Generates or updates `CHANGELOG.md` from git history (Keep a Changelog format) |
+| `/consistency-check-docs` | Audits documentation files against the actual file tree; reports mismatches |
 | `/diagram` | Scaffolds a Mermaid diagram (sequence, flowchart, ER, state) into a Markdown file |
+| `/export-prompt` | Exports a harvest paste-prompt, plan, or skill template to the cross-project library |
+| `/harvest` | Audits spin-off project for template-worthy changes; generates paste-prompts for transfer |
 | `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
 | `/release-notes` | Drafts human-facing release notes from git history, grouped by theme |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
