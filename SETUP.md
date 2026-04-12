@@ -232,14 +232,22 @@ your-project-name/
 │   │   ├── adr-new/SKILL.md       # /adr-new — scaffold a new ADR in docs/adr/
 │   │   ├── avoid-ai-writing/SKILL.md  # /avoid-ai-writing — audit prose for AI tells
 │   │   ├── brainstorm/SKILL.md    # /brainstorm — pre-planning conversation for vague tasks
+│   │   ├── changelog/SKILL.md     # /changelog — generate or update CHANGELOG.md from git history
+│   │   ├── consistency-check/SKILL.md # /consistency-check — audit docs against actual file tree
+│   │   ├── diagram/SKILL.md       # /diagram — scaffold a Mermaid diagram into a Markdown file
+│   │   ├── harvest/SKILL.md       # /harvest — audit spin-off for template-worthy changes
 │   │   ├── inbox-process/SKILL.md # /inbox-process — walk _inbox/ and propose filing
+│   │   ├── release-notes/SKILL.md # /release-notes — draft human-facing release notes from git history
 │   │   └── sync-template/SKILL.md # /sync-template — reviews Claude Code docs, updates template
 │   ├── rules/
 │   │   ├── code-style.md          # Code style standards
 │   │   ├── documentation.md       # Doc standards: audience levels, templates, style rules
+│   │   ├── harvest-flag.md        # Conversational flagging — bookmarks items for next /harvest audit
 │   │   ├── mental-models.md       # Calibration framework for collaboration
 │   │   ├── outbox-capture.md      # When to save snippets to _outbox/
 │   │   └── session-start.md       # First-reply behavior (open tasks, branching prompt)
+│   ├── template-baseline.md       # Fork-time snapshot — inherited files, commit SHA, template URL
+│   ├── harvest-queue.md           # Transient harvest flag queue (gitignored)
 │   └── hooks/
 │       ├── pre-tool-use.sh        # Blocks secrets, external fetches, rm -r* (defense-in-depth)
 │       └── session-start.sh       # Prints git status, open tasks, and branch warnings
@@ -270,20 +278,36 @@ your-project-name/
 │   └── screenshots/               # Images and binary files (via Git LFS)
 ├── docs/
 │   ├── adr/                       # Architecture Decision Records (ADR-NNN-title.md)
+│   ├── analysis/                  # Investigations, trade-off studies, findings
 │   ├── api/                       # API reference documentation
+│   ├── current-state/             # How things work today (baseline)
+│   ├── design/                    # Design documents — plans, architecture sketches, mechanism designs
+│   ├── deliverables/              # Finished artifacts for external audiences
+│   │   └── presentations/         #   Slide decks and talking points
+│   ├── future-state/              # Target design
+│   ├── roadmap/                   # Sequencing, phases, milestones
 │   ├── runbooks/                  # Operational runbooks
 │   ├── concepts.md                # How repos, branches, environments and Claude Code work
 │   ├── setup-guide.md             # How to create a new project from scratch using this template
 │   ├── start-cli.md               # Getting started: Claude Code CLI
 │   ├── start-vscode.md            # Getting started: Claude Code VS Code Extension
 │   └── start-web.md               # Getting started: Claude Code on the Web
+├── references/                    # External knowledge pointers and project vocabulary
+│   ├── sources.md                 #   Authoritative external docs
+│   ├── tools.md                   #   Dashboards, consoles, portals
+│   ├── research.md                #   Articles, posts, papers
+│   ├── people.md                  #   Stakeholders and contacts
+│   ├── glossary.md                #   Project terms, acronyms, codenames
+│   └── decisions-log.md           #   Lightweight decision log (sibling to ADRs)
 ├── .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
 ├── .gitattributes                 # Line ending rules and Git LFS routing
 ├── .gitignore                     # Files excluded from version control
 ├── CLAUDE.md                      # Claude Code instructions and project conventions
 ├── CONTRIBUTING.md                # How to contribute — shown by GitHub before new issues/PRs
 ├── LICENSE                        # License — replace placeholder with your chosen license
+├── README.md                      # Project overview — what it is and how to run it
 ├── SECURITY.md                    # Vulnerability reporting policy
+├── TASKS.md                       # Lightweight project backlog — surfaced at session start
 └── SETUP.md                       # This file — how to get started on a new machine
 ```
 

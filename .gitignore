@@ -88,4 +88,5 @@ packages/
 # CLAUDE CODE — machine-specific / personal files stay local
 # ============================================================
 .claude/settings.local.json
+.claude/harvest-queue.md
 CLAUDE.local.md

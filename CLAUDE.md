@@ -111,10 +111,14 @@ Before executing any of the following, explicitly describe the action and ask th
   README.md                    # Index of every command and skill — keep in sync when adding/removing
   commands/                    # Custom slash commands — each .md file becomes a /command
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
-                               # adr-new, avoid-ai-writing, brainstorm, changelog, diagram,
-                               # inbox-process, release-notes, sync-template
+                               # adr-new, avoid-ai-writing, brainstorm, changelog,
+                               # consistency-check, diagram, harvest, inbox-process,
+                               # release-notes, sync-template
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)
+  rules/harvest-flag.md        # Conversational flagging for template harvest
+  template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
+  harvest-queue.md             # Transient harvest flag queue (gitignored)
   settings.json                # Shared permissions and hooks
   settings.local.json          # Machine-specific MCP tokens (gitignored — never commit)
   settings.local.json.example  # Template for settings.local.json — committed, no secrets
@@ -146,6 +150,7 @@ docs/
   analysis/                    # Investigations, trade-off studies, findings
   api/                         # API reference documentation
   current-state/               # How things work today (baseline)
+  design/                      # Design documents — plans, architecture sketches, mechanism designs
   deliverables/                # Finished artifacts for external audiences
     presentations/             #   Slide decks and talking points
   future-state/                # Target design
