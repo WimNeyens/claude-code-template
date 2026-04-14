@@ -294,6 +294,7 @@ your-project-name/
 │   ├── start-vscode.md            # Getting started: Claude Code VS Code Extension
 │   └── start-web.md               # Getting started: Claude Code on the Web
 ├── references/                    # External knowledge pointers and project vocabulary
+│   ├── README.md                  #   Index for the references/ folder
 │   ├── sources.md                 #   Authoritative external docs
 │   ├── tools.md                   #   Dashboards, consoles, portals
 │   ├── research.md                #   Articles, posts, papers
@@ -303,6 +304,7 @@ your-project-name/
 ├── .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
 ├── .gitattributes                 # Line ending rules and Git LFS routing
 ├── .gitignore                     # Files excluded from version control
+├── .mcp.json                      # Project-scoped MCP servers — ships empty, add as needed (no secrets)
 ├── CLAUDE.md                      # Claude Code instructions and project conventions
 ├── CONTRIBUTING.md                # How to contribute — shown by GitHub before new issues/PRs
 ├── LICENSE                        # License — replace placeholder with your chosen license

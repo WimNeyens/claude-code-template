@@ -115,10 +115,12 @@ Before executing any of the following, explicitly describe the action and ask th
                                # consistency-check-docs, diagram, export-prompt, harvest, inbox-process,
                                # release-notes, sync-template
   hooks/                       # Hook scripts (session-start, pre-tool-use)
-  rules/                       # Topic-specific instructions (code-style, documentation, mental-models, ...)
-  rules/harvest-flag.md        # Conversational flagging for template harvest
+  rules/                       # Topic-specific instructions
+                               # code-style, documentation, harvest-flag, mental-models,
+                               # outbox-capture, session-start
   template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
   harvest-queue.md             # Transient harvest flag queue (gitignored)
+  docs-baseline.hash           # SHA-256 of last-reviewed Claude Code release notes
   settings.json                # Shared permissions and hooks
   settings.local.json          # Machine-specific MCP tokens (gitignored — never commit)
   settings.local.json.example  # Template for settings.local.json — committed, no secrets
@@ -139,8 +141,15 @@ Before executing any of the following, explicitly describe the action and ask th
     codeql.yml                 # Static security analysis — add languages to matrix to activate
     claude-docs-watch.yml      # Weekly check for Claude Code docs changes
     shellcheck.yml             # Lints .claude/hooks/ and .githooks/ on every PR
-.mcp.json                      # Project-scoped MCP server configuration — ships empty ({}); add servers as needed (no secrets)
+  dependabot.yml               # Automated dependency update PRs
+  pull_request_template.md     # Default PR description template
+.vscode/
+  extensions.json              # Recommended VS Code extensions
+  settings.json                # Shared editor settings
 .editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
+.gitattributes                 # Line ending rules and Git LFS routing
+.gitignore                     # Files excluded from version control
+.mcp.json                      # Project-scoped MCP server configuration — ships empty ({}); add servers as needed (no secrets)
 _inbox/                        # Drop zone for unfiled material — see _inbox/README.md
 _outbox/                       # Outbound drop zone for reusable snippets — see _outbox/README.md
 assets/
@@ -162,16 +171,20 @@ docs/
   start-vscode.md              # Getting started: Claude Code VS Code Extension
   start-web.md                 # Getting started: Claude Code on the Web
 references/                    # External knowledge pointers and project vocabulary
+  README.md                    #   Index for the references/ folder
   sources.md                   #   Authoritative external docs
   tools.md                     #   Dashboards, consoles, portals
   research.md                  #   Articles, posts, papers
   people.md                    #   Stakeholders and contacts
   glossary.md                  #   Project terms, acronyms, codenames
   decisions-log.md             #   Lightweight decision log (sibling to ADRs)
-TASKS.md                       # Lightweight project backlog — surfaced at session start
+CLAUDE.md                      # Project constitution — read by Claude on every session start
 CONTRIBUTING.md                # Contribution guide — GitHub surfaces this before new issues/PRs
 LICENSE                        # License — replace placeholder with your chosen license
+README.md                      # Project landing page — rendered on the GitHub repo homepage
 SECURITY.md                    # Vulnerability reporting policy — GitHub surfaces this in Security tab
+SETUP.md                       # Machine setup guide — prerequisites, clone, MCP servers
+TASKS.md                       # Lightweight project backlog — surfaced at session start
 ```
 
 ### Knowledge layout
