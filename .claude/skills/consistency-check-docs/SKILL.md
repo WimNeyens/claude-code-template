@@ -13,7 +13,10 @@ Compare what the documentation claims exists against what actually exists on dis
    - `.claude/skills/*/SKILL.md` — each directory name = skill name
    - `.claude/rules/*.md` — each filename
    - `.claude/hooks/*` — each filename
-   - Top-level files and directories
+   - `.claude/` loose files — `.gitignore`, `settings.json`, `settings.local.json.example`, `docs-baseline.hash`, `template-baseline.md`, and `harvest-queue.md` if present. Treat `settings.local.json` and `harvest-queue.md` as optional on disk (both gitignored).
+   - `.githooks/*` — each filename
+   - `.github/workflows/*` — each filename
+   - Top-level files and directories (including root-level dotfiles: `.mcp.json`, `.gitignore`, `.gitattributes`, `.editorconfig`)
    - `docs/` subdirectories and files
    - `references/` files
 

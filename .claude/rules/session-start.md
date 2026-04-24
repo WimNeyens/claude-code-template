@@ -50,3 +50,17 @@ on the remote and the local main does not auto-update. Branching off stale main 
 later.
 
 This is a mechanical step. Do not ask the user — just do it.
+
+## Consistency check before opening a PR
+
+If during this session you added, removed, or renamed anything under `.claude/commands/`,
+`.claude/skills/`, `.claude/rules/`, or `.claude/hooks/` — or edited any file-tree block in
+`CLAUDE.md`, `SETUP.md`, `README.md`, or `.claude/README.md` — run `/consistency-check-docs`
+before opening the PR and fix any mismatches in the same branch.
+
+Rationale: these four indices drift independently. `.claude/README.md` is usually updated first
+because it is closest to the change, and the other three get missed. The audit takes seconds and
+catches drift at the point where it matters most — right before it ships.
+
+Skip the audit for edits that cannot cause drift (prose-only changes inside a rule file, typo
+fixes in a command body, etc.).

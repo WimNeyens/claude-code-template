@@ -108,6 +108,7 @@ Before executing any of the following, explicitly describe the action and ask th
 
 ```
 .claude/
+  .gitignore                   # Ignores local-only files inside .claude/ (settings.local.json, harvest-queue.md, .DS_Store)
   README.md                    # Index of every command and skill — keep in sync when adding/removing
   commands/                    # Custom slash commands — each .md file becomes a /command
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
@@ -116,8 +117,8 @@ Before executing any of the following, explicitly describe the action and ask th
                                # release-notes, sync-template
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions
-                               # code-style, documentation, harvest-flag, mental-models,
-                               # outbox-capture, session-start
+                               # code-style, documentation, goal-driven-execution, harvest-flag,
+                               # mental-models, outbox-capture, session-start
   template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
   harvest-queue.md             # Transient harvest flag queue (gitignored)
   docs-baseline.hash           # SHA-256 of last-reviewed Claude Code release notes

@@ -211,6 +211,7 @@ This makes the "feature branches only" rule from `CLAUDE.md` enforced server-sid
 ```
 your-project-name/
 ├── .claude/
+│   ├── .gitignore                 # Ignores local-only files inside .claude/ (settings.local.json, harvest-queue.md, .DS_Store)
 │   ├── settings.json              # Shared Claude permissions, env vars, and hooks (committed)
 │   ├── settings.local.json        # Machine-specific MCP servers and tokens (gitignored)
 │   ├── settings.local.json.example  # Template for settings.local.json — copy and fill in
@@ -243,6 +244,7 @@ your-project-name/
 │   ├── rules/
 │   │   ├── code-style.md          # Code style standards
 │   │   ├── documentation.md       # Doc standards: audience levels, templates, style rules
+│   │   ├── goal-driven-execution.md # Reframe imperative tasks as verifiable goals
 │   │   ├── harvest-flag.md        # Conversational flagging — bookmarks items for next /harvest audit
 │   │   ├── mental-models.md       # Calibration framework for collaboration
 │   │   ├── outbox-capture.md      # When to save snippets to _outbox/
