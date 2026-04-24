@@ -59,6 +59,7 @@ Topic-specific instructions. Claude reads all rule files at session start.
 |---|---|
 | `code-style.md` | Indentation, comments, abstractions, validation boundaries |
 | `documentation.md` | Audience levels, doc types, templates, style rules |
+| `goal-driven-execution.md` | Reframe imperative tasks as verifiable goals; plan with explicit verify steps |
 | `harvest-flag.md` | Conversational flagging — bookmarks items for next `/harvest` audit |
 | `mental-models.md` | Calibration framework — domain, context, intent, trust/handoff |
 | `outbox-capture.md` | When and how to save reusable snippets to `_outbox/` |
@@ -75,10 +76,14 @@ Shell scripts the Claude Code harness invokes around tool calls and session even
 
 > **Defense-in-depth note.** The deny rules in `settings.json` (curl, secret reads, `rm -rf`) are intentionally **mirrored** in `pre-tool-use.sh`. The `deny` list uses prefix-glob matching and misses edge cases like `rm -rfv`, `&&`-chained commands, and quoted variants — the hook catches those with regex. **If you remove a rule from one layer, remove it from the other.** JSON has no comment syntax, so this contract lives here rather than inline.
 
-## Settings
+## Settings and loose files
 
 | File | Committed? | Purpose |
 |---|---|---|
 | `settings.json` | Yes | Shared permissions, env vars, hook wiring |
 | `settings.local.json` | No (gitignored) | Machine-specific MCP tokens |
 | `settings.local.json.example` | Yes | Format reference for `settings.local.json` |
+| `.gitignore` | Yes | Ignores local-only files inside `.claude/` (`settings.local.json`, `harvest-queue.md`, `.DS_Store`) |
+| `docs-baseline.hash` | Yes | SHA-256 of last-reviewed Claude Code release notes — used by `/sync-template` |
+| `template-baseline.md` | Yes | Fork-time snapshot: inherited files, commit SHA, template URL |
+| `harvest-queue.md` | No (gitignored) | Transient queue populated by the harvest-flag rule — present only between flag and `/harvest` run |
