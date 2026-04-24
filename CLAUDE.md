@@ -11,6 +11,7 @@ This repository is currently in its initial setup phase. No source code, build c
 ### Branching workflow
 
 - **Never commit directly to `main`** — not even small fixes. Every change goes on a feature branch and enters `main` via a pull request. Applies to solo work too.
+  - **Exception — trivial bookkeeping:** flipping a checkbox in `TASKS.md` (`[ ]` → `[x]`) after the task's PR has already merged may be committed directly to `main`. Scoped to edits that only record state a merged PR already established — not to any other content change.
 - Before the first edit in a new task, confirm you are on a feature branch. If on `main`, run `git checkout -b <type>/<short-description>` first.
 - Branch name patterns:
   - Feature branches: `feature/<short-description>`
