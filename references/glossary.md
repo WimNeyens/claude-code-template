@@ -8,7 +8,7 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 
 ## A
 
-<!-- e.g. - **ACL** — Access Control List. The per-resource permission table in the auth service. -->
+- **ADR** — A short markdown file in `docs/adr/` capturing the context, decision, and consequences of a significant architectural choice. Template lives in `.claude/rules/documentation.md`. Scaffolded by `/adr-new`. *(Architecture Decision Record)*
 
 ## B
 
@@ -24,12 +24,17 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 
 ## G
 
+- **goal-driven-execution** — Standing rule (`.claude/rules/goal-driven-execution.md`) that reframes imperative requests as verifiable goals, each paired with an explicit check (test, command, browser observation). Distilled from Andrej Karpathy's notes on LLM coding pitfalls.
+
 ## H
 
 - **harvest** — The process of auditing a spin-off project for improvements worth transferring back to the template it was forked from. Performed by the `/harvest` skill. See also: *template-baseline*, *harvest-queue*, *paste-prompt*.
+- **harvest-flag** — Standing rule (`.claude/rules/harvest-flag.md`) that watches for conversational signals ("save this for the template", "harvest this") and bookmarks the referenced item to `harvest-queue` for the next `/harvest` audit.
 - **harvest-queue** — A transient, gitignored file (`.claude/harvest-queue.md`) that collects bookmarked items for the next `/harvest audit`. Populated by conversational flagging via the `harvest-flag` rule or `/harvest flag`. Cleared after each audit.
 
 ## I
+
+- **_inbox** — Drop zone (`_inbox/`) for unfiled material — pasted notes, screenshots, exports. Entirely gitignored except scaffolding READMEs. Items are processed and removed by `/inbox-process`. See also: *_outbox*.
 
 ## J
 
@@ -37,13 +42,19 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 
 ## L
 
+- **LFS** — Git extension for storing large binary files (images, fonts, design files, videos, archives) outside the regular git history. Configured via `.gitattributes`; activated per machine with `git lfs install`. *(Large File Storage)*
 - **library** — A project-independent folder (`C:\DEV\Claude\library\`) that holds reusable building blocks across all projects: scripts, harvest paste-prompts, exported plans, and skill templates. Populated by `/export-prompt` or manual saves. See also: *_outbox*, *harvest*, *paste-prompt*.
 
 ## M
 
+- **MCP** — Open standard for connecting Claude (and other agents) to external data sources and tools — filesystem, GitHub API, databases, etc. Project-scoped servers go in `.mcp.json` (no secrets); machine-specific servers with tokens go in `.claude/settings.local.json`. *(Model Context Protocol)*
+- **mental-models** — Standing rule (`.claude/rules/mental-models.md`) asking Claude to keep four mental models calibrated during collaboration: Domain, Context, Intent, Trust/handoff. Used to detect drift before it causes harm.
+
 ## N
 
 ## O
+
+- **_outbox** — Outbound twin of `_inbox/`. A staging area (`_outbox/`) for reusable snippets captured during normal work, awaiting a future cross-project library harvester. Tracked (committed), not gitignored. Capture rules in `.claude/rules/outbox-capture.md`. See also: *_inbox*, *library*.
 
 ## P
 
@@ -55,6 +66,7 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 
 ## S
 
+- **session-start** — Two coupled artifacts: a Claude Code hook (`.claude/hooks/session-start.sh`) that prints git status and surfaces `TASKS.md` / branching warnings on every session start, and a standing rule (`.claude/rules/session-start.md`) describing the first-reply behavior — branching prompt, open tasks, template promotion.
 - **sync-template** — The `/sync-template` skill. Reviews Claude Code release notes and updates this template for new features, deprecations, or changed best practices. The inbound half of the template feedback loop.
 
 ## T
@@ -62,6 +74,8 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 - **template-baseline** — A stub file (`.claude/template-baseline.md`) recording the fork commit SHA, fork date, and inherited file list at the time a project was created from this template. Used by `/harvest` to diff the spin-off against its origin.
 
 ## U
+
+- **uv** — Rust-based Python toolchain manager from [Astral](https://docs.astral.sh/uv/). One binary replaces `pip`, `pipx`, `virtualenv`, and `pyenv`. Manages Python interpreter versions itself; runs 10–100× faster than the originals. Use `uv tool install <package>` for global Python CLIs.
 
 ## V
 
