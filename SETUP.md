@@ -118,7 +118,39 @@ sudo apt install nodejs
 
 Verify: `node --version` and `npm --version`
 
-### 5. jq (required by Claude hooks)
+### 5. Python tooling: uv (optional)
+
+If your project uses Python — or you want to install Python-based CLI tools globally — `uv` is the modern toolchain manager from [Astral](https://docs.astral.sh/uv/) (same team behind `ruff`). One Rust binary replaces `pip`, `pipx`, `virtualenv`, and `pyenv`, runs 10–100× faster than the originals, and manages Python interpreter versions itself.
+
+```powershell
+# Windows
+winget install --id=astral-sh.uv -e
+```
+
+```bash
+# macOS
+brew install uv
+
+# Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Verify: `uv --version`
+
+Common commands:
+
+```bash
+uv tool install <package>     # install a Python CLI in an isolated env (replaces pipx)
+uv tool list                  # list installed tools
+uv tool uninstall <package>   # clean removal
+uv venv && uv pip install -r requirements.txt   # create venv + install deps
+uvx <package>                 # run a tool one-off without installing (replaces pipx run)
+uv python install 3.13        # install a specific Python version (replaces pyenv install)
+```
+
+Skip if your project does not use Python and you do not need Python CLI tools.
+
+### 6. jq (required by Claude hooks)
 
 The `pre-tool-use.sh` hook parses tool input as JSON. Without `jq`, the secret-read and external-fetch guardrails fall back to a degraded mode and emit a warning at every tool call.
 
@@ -137,7 +169,7 @@ sudo apt install jq
 
 Verify: `jq --version`
 
-### 6. Claude Code CLI
+### 7. Claude Code CLI
 
 **Recommended — native installer (auto-updates):**
 
