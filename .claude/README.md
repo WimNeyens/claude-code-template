@@ -57,6 +57,7 @@ Topic-specific instructions. Claude reads all rule files at session start.
 
 | File | Topic |
 |---|---|
+| `branch-audit.md` | Mandatory git+intent cross-checks before recommending branch deletion |
 | `code-style.md` | Indentation, comments, abstractions, validation boundaries |
 | `documentation.md` | Audience levels, doc types, templates, style rules |
 | `goal-driven-execution.md` | Reframe imperative tasks as verifiable goals; plan with explicit verify steps |

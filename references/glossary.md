@@ -12,6 +12,8 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 
 ## B
 
+- **branch-audit** — Standing rule (`.claude/rules/branch-audit.md`) requiring a git-mechanical check (unique commits, unique files, last-commit date vs `origin/main`) plus an intent check (memory references, gitignored sibling folders, conversation context) before recommending any branch for deletion.
+
 ## C
 
 <!-- e.g. - **Codename Phoenix** — internal name for the 2026 platform rewrite -->

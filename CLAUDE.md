@@ -118,8 +118,8 @@ Before executing any of the following, explicitly describe the action and ask th
                                # release-notes, sync-template
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions
-                               # code-style, documentation, goal-driven-execution, harvest-flag,
-                               # mental-models, outbox-capture, session-start
+                               # branch-audit, code-style, documentation, goal-driven-execution,
+                               # harvest-flag, mental-models, outbox-capture, session-start
   template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
   harvest-queue.md             # Transient harvest flag queue (gitignored)
   docs-baseline.hash           # SHA-256 of last-reviewed Claude Code release notes

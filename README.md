@@ -53,7 +53,7 @@ your-project-name/
 │   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code release notes
 │   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /security-audit, /write-docs, /task-add, /task-done, /task-list
 │   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /changelog, /consistency-check-docs, /diagram, /export-prompt, /harvest, /inbox-process, /release-notes, /sync-template
-│   ├── rules/                 # Standing instructions: code-style, documentation, goal-driven-execution, harvest-flag, mental-models, outbox-capture, session-start
+│   ├── rules/                 # Standing instructions: branch-audit, code-style, documentation, goal-driven-execution, harvest-flag, mental-models, outbox-capture, session-start
 │   ├── template-baseline.md   # Fork-time snapshot — inherited files, commit SHA, template URL
 │   ├── harvest-queue.md       # Transient harvest flag queue (gitignored)
 │   ├── README.md              # Index of commands and skills (keep in sync when adding/removing)

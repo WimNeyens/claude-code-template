@@ -274,6 +274,7 @@ your-project-name/
 │   │   ├── release-notes/SKILL.md # /release-notes — draft human-facing release notes from git history
 │   │   └── sync-template/SKILL.md # /sync-template — reviews Claude Code docs, updates template
 │   ├── rules/
+│   │   ├── branch-audit.md        # Mandatory git+intent cross-checks before recommending branch deletion
 │   │   ├── code-style.md          # Code style standards
 │   │   ├── documentation.md       # Doc standards: audience levels, templates, style rules
 │   │   ├── goal-driven-execution.md # Reframe imperative tasks as verifiable goals
