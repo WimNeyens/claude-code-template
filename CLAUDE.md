@@ -115,11 +115,12 @@ Before executing any of the following, explicitly describe the action and ask th
   skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
                                # adr-new, avoid-ai-writing, brainstorm, changelog,
                                # consistency-check-docs, diagram, export-prompt, harvest, inbox-process,
-                               # release-notes, sync-template
+                               # release-notes, sync-template, troubleshooting
   hooks/                       # Hook scripts (session-start, pre-tool-use)
   rules/                       # Topic-specific instructions
                                # branch-audit, code-style, documentation, goal-driven-execution,
-                               # harvest-flag, mental-models, outbox-capture, session-start
+                               # harvest-flag, mental-models, outbox-capture, session-start,
+                               # troubleshooting-verification
   template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
   harvest-queue.md             # Transient harvest flag queue (gitignored)
   docs-baseline.hash           # SHA-256 of last-reviewed Claude Code release notes

@@ -74,6 +74,7 @@ Format: `- **Term** — definition. *(expansion if acronym)*`
 ## T
 
 - **template-baseline** — A stub file (`.claude/template-baseline.md`) recording the fork commit SHA, fork date, and inherited file list at the time a project was created from this template. Used by `/harvest` to diff the spin-off against its origin.
+- **troubleshooting-verification** — Standing rule (`.claude/rules/troubleshooting-verification.md`) requiring every entity (process, driver, service, file, version) to be verified against an authoritative source before it feeds analysis, with re-verification on each new finding. Full method lives in the `/troubleshooting` skill.
 
 ## U
 
