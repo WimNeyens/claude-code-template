@@ -272,7 +272,8 @@ your-project-name/
 │   │   ├── harvest/SKILL.md       # /harvest — audit spin-off for template-worthy changes
 │   │   ├── inbox-process/SKILL.md # /inbox-process — walk _inbox/ and propose filing
 │   │   ├── release-notes/SKILL.md # /release-notes — draft human-facing release notes from git history
-│   │   └── sync-template/SKILL.md # /sync-template — reviews Claude Code docs, updates template
+│   │   ├── sync-template/SKILL.md # /sync-template — reviews Claude Code docs, updates template
+│   │   └── troubleshooting/SKILL.md # /troubleshooting — evidence-based investigation method
 │   ├── rules/
 │   │   ├── branch-audit.md        # Mandatory git+intent cross-checks before recommending branch deletion
 │   │   ├── code-style.md          # Code style standards
@@ -281,7 +282,8 @@ your-project-name/
 │   │   ├── harvest-flag.md        # Conversational flagging — bookmarks items for next /harvest audit
 │   │   ├── mental-models.md       # Calibration framework for collaboration
 │   │   ├── outbox-capture.md      # When to save snippets to _outbox/
-│   │   └── session-start.md       # First-reply behavior (open tasks, branching prompt)
+│   │   ├── session-start.md       # First-reply behavior (open tasks, branching prompt)
+│   │   └── troubleshooting-verification.md # Verify entity identity before building analysis on it
 │   ├── template-baseline.md       # Fork-time snapshot — inherited files, commit SHA, template URL
 │   ├── harvest-queue.md           # Transient harvest flag queue (gitignored)
 │   └── hooks/
