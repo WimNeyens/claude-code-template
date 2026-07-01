@@ -37,6 +37,7 @@ Newer format with YAML frontmatter, supporting files, and subagent execution. Ea
 | `/inbox-process` | Walks `_inbox/`, classifies items, and proposes filing destinations |
 | `/release-notes` | Drafts human-facing release notes from git history, grouped by theme |
 | `/sync-template` | Reviews Claude Code release notes and updates the template to stay current |
+| `/troubleshooting` | Evidence-based investigation — verify every entity's identity before building analysis on it |
 
 ## Optional upstream skill packs
 
@@ -65,6 +66,7 @@ Topic-specific instructions. Claude reads all rule files at session start.
 | `mental-models.md` | Calibration framework — domain, context, intent, trust/handoff |
 | `outbox-capture.md` | When and how to save reusable snippets to `_outbox/` |
 | `session-start.md` | First-reply behavior — open tasks, branching prompt, template promotion |
+| `troubleshooting-verification.md` | Verify entity identity before building on it; state what can't be verified; re-verify each finding |
 
 ## Hooks (`.claude/hooks/`)
 
