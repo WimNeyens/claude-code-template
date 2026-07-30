@@ -4,7 +4,12 @@ This file provides guidance to AI assistants (Claude and others) when working wi
 
 ## Repository Status
 
-This repository is currently in its initial setup phase. No source code, build configuration, or tests exist yet. This file will be updated as the project evolves.
+This is a project template, not an application. It carries the scaffolding — Claude Code
+configuration, git hooks, CI workflows, and documentation structure — and ships with no
+application source or test suite of its own.
+
+When you fork it into a real project, replace this section with a description of what that
+project actually is, and fill in the Commands section at the bottom once build tooling exists.
 
 ## Git Workflow
 
@@ -80,18 +85,17 @@ Refactor database connection pool
 - Prefer editing existing files over creating new ones
 - Keep changes focused and minimal
 - Confirm before taking irreversible or high-blast-radius actions (deleting files, force-pushing, dropping data)
-- Use the TodoWrite tool to track multi-step tasks
+- Track multi-step work with whatever task tools the session exposes (currently `TaskCreate` / `TaskUpdate`) so progress stays visible. These have been renamed before — use what is actually available, not what this line says
 - **Monitor for new tools and workflow steps:** whenever a new tool, dependency, or workflow step is introduced, proactively suggest updating `SETUP.md` to keep the onboarding guide current. Include the update in the same PR as the change that required it.
 
 ### What AI Assistants Should Avoid
 
-- Do not read or write files outside of `C:\DEV`
+- Do not read or write files outside of `C:\DEV` — this is the machine-specific boundary for this workspace. **Change it when you fork**, or drop it to the project directory alone if you have no reason to reach wider
 - Do not add docstrings, comments, or type annotations to code that was not changed
 - Do not add error handling for scenarios that cannot happen
 - Do not create helper utilities for one-time operations
 - Do not push to branches other than the designated feature branch
 - Do not amend published commits; create new commits instead
-- Do not skip pre-commit hooks (`--no-verify`)
 
 ### Risky Actions That Require User Confirmation
 
@@ -107,88 +111,23 @@ Before executing any of the following, explicitly describe the action and ask th
 
 ## File Structure Conventions
 
-```
-.claude/
-  .gitignore                   # Ignores local-only files inside .claude/ (settings.local.json, harvest-queue.md, .DS_Store)
-  README.md                    # Index of every command and skill — keep in sync when adding/removing
-  commands/                    # Custom slash commands — each .md file becomes a /command
-  skills/                      # Skills (newer format) — each SKILL.md becomes a /command with extras
-                               # adr-new, avoid-ai-writing, brainstorm, changelog,
-                               # consistency-check-docs, diagram, export-prompt, harvest, inbox-process,
-                               # release-notes, sync-template, troubleshooting
-  hooks/                       # Hook scripts (session-start, pre-tool-use)
-  rules/                       # Topic-specific instructions
-                               # branch-audit, code-style, documentation, goal-driven-execution,
-                               # harvest-flag, mental-models, outbox-capture, session-start,
-                               # troubleshooting-verification
-  template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
-  harvest-queue.md             # Transient harvest flag queue (gitignored)
-  docs-baseline.hash           # SHA-256 of last-reviewed Claude Code changelog
-  settings.json                # Shared permissions and hooks
-  settings.local.json          # Machine-specific MCP tokens (gitignored — never commit)
-  settings.local.json.example  # Template for settings.local.json — committed, no secrets
-.githooks/
-  pre-commit                   # Blocks commits containing common secret patterns
-  commit-msg                   # Enforces subject line ≤ 50 chars, no trailing period
-  post-checkout                # Git LFS shim — DO NOT DELETE
-  post-commit                  # Git LFS shim — DO NOT DELETE
-  post-merge                   # Git LFS shim — DO NOT DELETE
-  pre-push                     # Git LFS shim — DO NOT DELETE
-                               # LFS shims are required because core.hooksPath = .githooks
-                               # overrides the default location where `git lfs install` writes them.
-                               # Activate once per machine: git config core.hooksPath .githooks
-.github/
-  ISSUE_TEMPLATE/              # Bug report and feature request templates
-  workflows/
-    ci.yml                     # CI pipeline — runs on every push
-    codeql.yml                 # Static security analysis — add languages to matrix to activate
-    claude-docs-watch.yml      # Weekly check for Claude Code docs changes
-    shellcheck.yml             # Lints .claude/hooks/ and .githooks/ on every PR
-  dependabot.yml               # Automated dependency update PRs
-  pull_request_template.md     # Default PR description template
-.vscode/
-  extensions.json              # Recommended VS Code extensions
-  settings.json                # Shared editor settings
-.editorconfig                  # Editor-neutral formatting rules (indentation, line endings)
-.gitattributes                 # Line ending rules and Git LFS routing
-.gitignore                     # Files excluded from version control
-.mcp.json                      # Project-scoped MCP server configuration — ships empty ({}); add servers as needed (no secrets)
-_inbox/                        # Drop zone for unfiled material — see _inbox/README.md
-_outbox/                       # Outbound drop zone for reusable snippets — see _outbox/README.md
-assets/
-  screenshots/                 # UI screenshots, diagrams, and visual documentation
-docs/
-  adr/                         # Architecture Decision Records (ADR-NNN-title.md)
-  analysis/                    # Investigations, trade-off studies, findings
-  api/                         # API reference documentation
-  current-state/               # How things work today (baseline)
-  design/                      # Design documents — plans, architecture sketches, mechanism designs
-  deliverables/                # Finished artifacts for external audiences
-    presentations/             #   Slide decks and talking points
-  future-state/                # Target design
-  roadmap/                     # Sequencing, phases, milestones
-  runbooks/                    # Operational runbooks
-  concepts.md                  # How git, branches, environments, and Claude Code work together
-  setup-guide.md               # Meta: how to build a new template from scratch
-  start-cli.md                 # Getting started: Claude Code CLI
-  start-vscode.md              # Getting started: Claude Code VS Code Extension
-  start-web.md                 # Getting started: Claude Code on the Web
-references/                    # External knowledge pointers and project vocabulary
-  README.md                    #   Index for the references/ folder
-  sources.md                   #   Authoritative external docs
-  tools.md                     #   Dashboards, consoles, portals
-  research.md                  #   Articles, posts, papers
-  people.md                    #   Stakeholders and contacts
-  glossary.md                  #   Project terms, acronyms, codenames
-  decisions-log.md             #   Lightweight decision log (sibling to ADRs)
-CLAUDE.md                      # Project constitution — read by Claude on every session start
-CONTRIBUTING.md                # Contribution guide — GitHub surfaces this before new issues/PRs
-LICENSE                        # License — replace placeholder with your chosen license
-README.md                      # Project landing page — rendered on the GitHub repo homepage
-SECURITY.md                    # Vulnerability reporting policy — GitHub surfaces this in Security tab
-SETUP.md                       # Machine setup guide — prerequisites, clone, MCP servers
-TASKS.md                       # Lightweight project backlog — surfaced at session start
-```
+The full annotated tree lives in [`SETUP.md`](SETUP.md#repository-layout). `README.md` and
+`.claude/README.md` carry the same map for their own readers. It is not repeated here — a
+fourth copy costs context on every session and is one more place to drift.
+
+What follows is only the part that is an *instruction* rather than a description: things you
+cannot work out by listing the directory.
+
+| Path | Rule |
+|---|---|
+| `.githooks/post-checkout`, `post-commit`, `post-merge`, `pre-push` | Git LFS shims — **do not delete.** `core.hooksPath = .githooks` overrides where `git lfs install` writes its hooks, so removing these breaks LFS tracking silently. Activate once per machine: `git config core.hooksPath .githooks` |
+| `.claude/settings.json` deny rules | Deliberately mirrored in `.claude/hooks/pre-tool-use.sh`. Change one layer, change the other — `.claude/README.md` explains why prefix-globs alone are not enough |
+| `.claude/settings.local.json` | Gitignored. MCP tokens belong here — never in `.mcp.json` or `settings.json` |
+| `.mcp.json` | Committed, so it must stay secrets-free. Ships as `{}` |
+| `.claude/README.md` | The index of every command, skill, rule, and hook. Update it in the same PR that adds or removes one |
+| `.claude/harvest-queue.md` | Transient and gitignored. Exists only between a harvest flag and the next `/harvest` run |
+| `.claude/docs-baseline.hash` | Set from the hash published by `claude-docs-watch` — never computed locally, since `curl` is denied |
+| `_inbox/` | Gitignored apart from the README and subfolder scaffolding |
 
 ### Knowledge layout
 
