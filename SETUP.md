@@ -412,6 +412,29 @@ Replace:
 
 Remove permissions for stacks you do not use to keep the allow-list focused.
 
+### Adapting VS Code extensions for your stack
+
+`.vscode/extensions.json` ships with only what every fork needs regardless of language —
+`anthropic.claude-code` and `editorconfig.editorconfig`. It carries no language tooling on
+purpose, so a Go or Rust fork is not prompted to install a Python extension.
+
+Add your stack's extensions when you fork:
+
+| Stack | Extensions to add |
+|---|---|
+| Python | `ms-python.python`, `ms-python.vscode-pylance`, `charliermarsh.ruff` |
+| Node / TypeScript | `dbaeumer.vscode-eslint`, `esbenp.prettier-vscode` |
+| Go | `golang.go` |
+| Rust | `rust-lang.rust-analyzer` |
+| .NET | `ms-dotnettools.csdevkit` |
+| Ruby | `Shopify.ruby-lsp` |
+
+Without the relevant entry, a contributor opening the project on a new machine gets no
+language server, no test discovery, and no interpreter picker — and no prompt telling them
+what is missing. Unlike the permission list above, where an unused entry is inert, an
+extension recommendation is shown to everyone who opens the folder. Keep this list to what
+the project actually uses.
+
 ---
 
 ## Git LFS: Tracked File Types

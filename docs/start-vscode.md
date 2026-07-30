@@ -112,9 +112,13 @@ Run `/memory` in any session to see all loaded instructions.
 | File | What it does |
 |---|---|
 | `.vscode/settings.json` | Format on save, 2-space indentation, rulers at 100 columns |
-| `.vscode/extensions.json` | Recommends `anthropic.claude-code` to teammates on first open |
+| `.vscode/extensions.json` | Recommends `anthropic.claude-code` and `editorconfig.editorconfig` to teammates on first open |
 
 These are committed to the repo so all contributors get the same editor behaviour.
+
+`extensions.json` deliberately carries no language tooling, so no fork is prompted to install
+an extension for a language it does not use. Add your stack's extensions when you fork — see
+[SETUP.md — Adapting VS Code extensions for your stack](../SETUP.md#adapting-vs-code-extensions-for-your-stack).
 
 ---
 
