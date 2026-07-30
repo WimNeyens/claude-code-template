@@ -389,15 +389,29 @@ Create `.claude/settings.json`:
     "allow": [
       "Bash(git *)",
       "Bash(gh *)",
-      "Bash(npm *)",
-      "Bash(node *)"
+      "Bash(npm run *)",
+      "Bash(npm install)",
+      "Bash(npm test)",
+      "Bash(node --version)",
+      "Edit(TASKS.md)",
+      "Write(TASKS.md)"
     ],
+    "_comment_deny": "Mirrored by .claude/hooks/pre-tool-use.sh — both layers are intentional defense-in-depth. If you change one, change the other.",
     "deny": [
       "Bash(git push --force*)",
+      "Bash(git push * --force*)",
       "Bash(git push --no-verify*)",
+      "Bash(git push * --no-verify*)",
       "Bash(git reset --hard*)",
       "Bash(git rebase -i*)",
-      "Bash(rm -rf *)"
+      "Bash(rm -rf *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.ssh/*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
     ]
   },
   "env": {
@@ -413,16 +427,41 @@ Create `.claude/settings.json`:
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-tool-use.sh"
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "matcher": "project_settings",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Project settings change blocked. Edit .claude/settings.json manually outside of a session.' && exit 2"
+          }
+        ]
+      }
     ]
   }
 }
 ```
 
 Key settings:
-- `allow` — tools Claude can use without asking. Add `Bash(npm *)` and `Bash(node *)` once the project uses Node.
-- `deny` — destructive operations Claude must never run without explicit user instruction.
+- `allow` — tools Claude can use without asking. Keep it narrow: `Bash(npm run *)` rather than `Bash(npm *)`, so `npm publish` still prompts. Add your own stack's build and test commands here (see `SETUP.md` for per-stack suggestions).
+- `deny` — destructive operations and secret reads Claude must never perform. The bash rules here are deliberately duplicated in `.claude/hooks/pre-tool-use.sh`: `deny` uses prefix-glob matching, which misses `rm -rfv` and `&&`-chained variants, and the hook catches those with regex. **Change one layer, change the other.**
 - `env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` — triggers context compaction at 80% usage (default is 95%), leaving more headroom before a session is interrupted.
-- `hooks.SessionStart` — runs `.claude/hooks/session-start.sh` at the start of every session to print git status and environment context. See `docs/concepts.md` section 12 for the full list of hook events.
+- `hooks.SessionStart` — runs `.claude/hooks/session-start.sh` at the start of every session to print git status, open tasks, and a branch warning.
+- `hooks.PreToolUse` — runs the guardrail script before every tool call.
+- `hooks.ConfigChange` — blocks in-session edits to the project settings file, so permission changes are a deliberate act outside a session.
+
+See `docs/concepts.md` section 12 for the full list of hook events and types, and section 13 for sandboxing — an OS-level layer beneath permissions.
 
 > **Note:** MCP server configuration belongs in `.mcp.json` at the repo root (Phase 7), not here. Keep this file to permissions, env vars, and hooks only.
 
@@ -628,7 +667,9 @@ jobs:
 
 > This placeholder ensures CI runs on every push from day one. Replace the `echo` lines with real test commands once the project has them.
 
-Create `.github/workflows/claude-docs-watch.yml` — runs every Monday at 09:00 UTC. Fetches the Claude Code release notes page, SHA-256 hashes the content, and compares it against `.claude/docs-baseline.hash`. If the content has changed and no open `claude-docs-update` issue exists, it opens one automatically. Copy this file from the template repo; no configuration needed.
+Create `.github/workflows/claude-docs-watch.yml` — runs every Monday at 09:00 UTC. Fetches the raw Claude Code changelog (`raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`), SHA-256 hashes it, and compares that against `.claude/docs-baseline.hash`. If it has changed and no open `claude-docs-update` issue exists, it opens one automatically and publishes the new hash in the issue body. Copy this file from the template repo; no configuration needed.
+
+> Hash the **raw** changelog, not a docs-site page. Rendered HTML changes between requests, so hashing it reports a change every single run.
 
 After creating this workflow, create the baseline seed file:
 
@@ -636,9 +677,11 @@ After creating this workflow, create the baseline seed file:
 echo "none" > .claude/docs-baseline.hash
 ```
 
-The first workflow run will detect a mismatch (since `none` is not a real hash), open a review issue, and prompt you to run `/sync-template`. That first run bootstraps the baseline. Subsequent runs stay silent until the docs actually change.
+The first workflow run will detect a mismatch (since `none` is not a real hash), open a review issue, and prompt you to run `/sync-template`. Subsequent runs stay silent until the changelog actually changes.
 
-**Responding to the review issue:** open a Claude Code session and run `/sync-template`. It will fetch the release notes, compare them against the template files — including `docs/setup-guide.md`, `SETUP.md`, and `README.md` — suggest specific updates, apply what you approve, reset the baseline, and close the issue.
+**Responding to the review issue:** open a Claude Code session and run `/sync-template`. It will fetch the changelog, compare it against the template files — including `docs/setup-guide.md`, `SETUP.md`, and `README.md` — suggest specific updates, and apply what you approve. To close the loop, copy the hash from the issue's **New baseline hash** section into `.claude/docs-baseline.hash`, commit, and close the issue.
+
+> The hash is published in the issue rather than computed locally because `Bash(curl *)` is denied in `.claude/settings.json` and blocked again by `pre-tool-use.sh` — a Claude session cannot fetch the changelog bytes itself.
 
 ### Step 3.13 — Create the pre-commit secret detection hook
 
@@ -1195,7 +1238,7 @@ Your repository is now a fully functional, reusable template. To start a new pro
 5. Configure GitHub settings (Phase 4)
 6. Connect Claude (Phases 5–8 are machine-level — done once, not per project)
 
-**Keeping the template current:** the `claude-docs-watch` workflow runs automatically every Monday. When it detects that the Claude Code release notes have changed, it opens a GitHub issue. Run `/sync-template` in a Claude Code session to review the changes, apply updates to template files and guides, and reset the baseline. This keeps the template aligned with the latest Claude Code features and deprecations without any manual monitoring.
+**Keeping the template current:** the `claude-docs-watch` workflow runs automatically every Monday. When it detects that the Claude Code changelog has changed, it opens a GitHub issue containing the new baseline hash. Run `/sync-template` in a Claude Code session to review the changes, apply updates to template files and guides, and write the published hash to `.claude/docs-baseline.hash`. This keeps the template aligned with the latest Claude Code features and deprecations without any manual monitoring.
 
 ---
 
@@ -1218,10 +1261,10 @@ Your repository is now a fully functional, reusable template. To start a new pro
 | `.claude/skills/<name>/SKILL.md` | Skills with YAML frontmatter and supporting files (`/sync-template`) | Yes |
 | `.claude/rules/*.md` | Topic-specific Claude instructions (`code-style.md`, `documentation.md`) | Yes |
 | `.claude/hooks/*.sh` | Hook scripts (session-start, etc.) | Yes |
-| `.claude/docs-baseline.hash` | SHA-256 hash of last-reviewed Claude Code release notes page | Yes |
+| `.claude/docs-baseline.hash` | SHA-256 hash of the last-reviewed Claude Code changelog | Yes |
 | `.github/workflows/ci.yml` | Automated CI on every push | Yes |
 | `.github/workflows/codeql.yml` | Static security analysis — activate by adding languages to matrix | Yes |
-| `.github/workflows/claude-docs-watch.yml` | Weekly check for Claude Code doc changes; opens review issue if changed | Yes |
+| `.github/workflows/claude-docs-watch.yml` | Weekly check for Claude Code changelog changes; opens review issue with the new baseline hash | Yes |
 | `.github/ISSUE_TEMPLATE/bug_report.md` | Bug report template | Yes |
 | `.github/ISSUE_TEMPLATE/feature_request.md` | Feature request template | Yes |
 | `README.md` | Human-readable project overview | Yes |

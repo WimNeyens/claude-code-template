@@ -50,7 +50,7 @@ your-project-name/
 │   ├── settings.json          # Shared Claude permissions, env vars, and hooks (committed)
 │   ├── settings.local.json    # Machine-specific tokens and MCP servers (gitignored)
 │   ├── settings.local.json.example  # Template for settings.local.json — copy and fill in
-│   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code release notes
+│   ├── docs-baseline.hash     # SHA-256 of last-reviewed Claude Code changelog
 │   ├── commands/              # Slash commands: /review-code, /commit-message, /pr, /test, /explain, /debug, /security-audit, /write-docs, /task-add, /task-done, /task-list
 │   ├── skills/                # Skills: /adr-new, /avoid-ai-writing, /brainstorm, /changelog, /consistency-check-docs, /diagram, /export-prompt, /harvest, /inbox-process, /release-notes, /sync-template, /troubleshooting
 │   ├── rules/                 # Standing instructions: branch-audit, code-style, documentation, goal-driven-execution, harvest-flag, mental-models, outbox-capture, session-start, troubleshooting-verification

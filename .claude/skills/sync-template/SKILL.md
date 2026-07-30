@@ -8,8 +8,18 @@ Review the Claude Code release notes and update this project template — includ
 
 ## Steps
 
-1. **Fetch the release notes**
-   Use WebFetch to get `https://docs.anthropic.com/en/release-notes/claude-code`.
+1. **Fetch the changelog**
+   Use WebFetch to get `https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`.
+
+   The file is large. Fetch it more than once with different prompts rather than
+   asking for everything at once — one pass for the newest versions, one asking
+   specifically for new hook events, settings keys, env vars, and deprecations
+   across the whole file.
+
+   Cross-check anything you plan to write into the template against the reference
+   docs (`https://code.claude.com/docs/en/hooks`, `.../settings`) rather than
+   relying on the changelog summary alone. Where the two disagree, say so and name
+   which source you used.
 
 2. **Read the current template**
    Read these files in parallel:
@@ -41,16 +51,21 @@ Review the Claude Code release notes and update this project template — includ
    - `README.md` — the layout diagram and documentation/commands tables if relevant
 
 7. **Reset the baseline**
-   Fetch the release notes page again and compute its SHA-256 hash:
-   ```bash
-   curl -sL "https://docs.anthropic.com/en/release-notes/claude-code" | sha256sum | cut -d' ' -f1
-   ```
-   Write the resulting hash (single line, no trailing whitespace) to `.claude/docs-baseline.hash`.
+   The `claude-docs-watch` workflow publishes the hash it computed under a
+   **New baseline hash** heading in the tracking issue. Read it from there and write
+   it (single line, no trailing whitespace) to `.claude/docs-baseline.hash`.
+
+   Do not try to compute the hash locally — `Bash(curl *)` is denied in
+   `.claude/settings.json` and blocked again by `pre-tool-use.sh`.
+
+   If no tracking issue is open, trigger the workflow manually
+   (`gh workflow run claude-docs-watch.yml`), wait for it to finish, and take the
+   hash from the issue it opens.
 
 8. **Commit**
    Stage and commit all changed files with the message:
    ```
-   Sync template with Claude Code release notes
+   Sync template with Claude Code changelog
    ```
 
 9. **Close the tracking issue** (if one is open)

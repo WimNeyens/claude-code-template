@@ -87,6 +87,6 @@ Shell scripts the Claude Code harness invokes around tool calls and session even
 | `settings.local.json` | No (gitignored) | Machine-specific MCP tokens |
 | `settings.local.json.example` | Yes | Format reference for `settings.local.json` |
 | `.gitignore` | Yes | Ignores local-only files inside `.claude/` (`settings.local.json`, `harvest-queue.md`, `.DS_Store`) |
-| `docs-baseline.hash` | Yes | SHA-256 of last-reviewed Claude Code release notes — used by `/sync-template` |
+| `docs-baseline.hash` | Yes | SHA-256 of the last-reviewed Claude Code changelog — set from the hash published by `claude-docs-watch` |
 | `template-baseline.md` | Yes | Fork-time snapshot: inherited files, commit SHA, template URL |
 | `harvest-queue.md` | No (gitignored) | Transient queue populated by the harvest-flag rule — present only between flag and `/harvest` run |

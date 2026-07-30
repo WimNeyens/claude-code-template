@@ -20,10 +20,14 @@ jobs:
       - name: Fetch release notes and hash content
         id: fetch
         run: |
-          curl -sL "https://docs.anthropic.com/en/release-notes/claude-code" \
+          # Hash the raw changelog, not the docs site. The old
+          # docs.anthropic.com/en/release-notes/claude-code URL now redirects to
+          # GitHub's rendered blob page, whose HTML changes on every request —
+          # hashing it produces a false positive every run.
+          curl -sL "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md" \
             -H "User-Agent: Mozilla/5.0 (compatible; template-docs-watcher/1.0)" \
-            -o /tmp/docs.html
-          HASH=$(sha256sum /tmp/docs.html | cut -d' ' -f1)
+            -o /tmp/changelog.md
+          HASH=$(sha256sum /tmp/changelog.md | cut -d' ' -f1)
           echo "hash=$HASH" >> "$GITHUB_OUTPUT"
 
       - name: Compare to baseline
@@ -40,6 +44,8 @@ jobs:
       - name: Open issue if docs changed
         if: steps.compare.outputs.changed == 'true'
         uses: actions/github-script@v9
+        env:
+          LATEST_HASH: ${{ steps.fetch.outputs.hash }}
         with:
           script: |
             // Skip if there is already an open review issue
@@ -62,7 +68,7 @@ jobs:
               body: [
                 '## Claude Code docs have been updated',
                 '',
-                'The [Claude Code release notes](https://docs.anthropic.com/en/release-notes/claude-code) page changed since the last baseline was recorded.',
+                'The [Claude Code changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) changed since the last baseline was recorded.',
                 '',
                 '### What to check',
                 '',
@@ -80,8 +86,18 @@ jobs:
                 '/sync-template',
                 '```',
                 '',
-                'The skill will fetch the release notes, compare them against the template files, and guide you through applying updates.',
+                'The skill will fetch the changelog, compare it against the template files, and guide you through applying updates.',
                 '',
-                'Once the template is updated, close this issue — the next `/sync-template` run will reset the baseline automatically.',
+                '### New baseline hash',
+                '',
+                'When the template has been updated, write this value to `.claude/docs-baseline.hash`',
+                '(single line, no trailing whitespace) and commit it, then close this issue:',
+                '',
+                '```',
+                process.env.LATEST_HASH,
+                '```',
+                '',
+                'The hash is published here because fetching it locally requires `curl`, which the',
+                'template denies inside a Claude session.',
               ].join('\n'),
             });
