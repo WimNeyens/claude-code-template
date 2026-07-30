@@ -431,29 +431,65 @@ Hooks are **not** for AI logic — use commands and skills for that. They are am
 
 This template already uses one hook: `SessionStart` runs `.claude/hooks/session-start.sh` to print git status and context at the beginning of every session.
 
-### The 19 hook events (as of April 2026)
+### The hook events (as of July 2026)
+
+Grouped by what they react to. Source: the [hooks reference](https://code.claude.com/docs/en/hooks).
+
+**Session lifecycle**
 
 | Event | When it fires |
 |---|---|
-| `Setup` | Before `SessionStart` — environment setup (undocumented, added v2.1.10) |
-| `SessionStart` | When a session begins |
-| `InstructionsLoaded` | After CLAUDE.md and rules are loaded (undocumented, added v2.1.69) |
-| `UserPromptSubmit` | When the user submits a message |
-| `PreToolUse` | Before any tool call — can allow or deny it |
-| `PostToolUse` | After a successful tool call |
-| `PostToolUseFailure` | After a failed tool call |
-| `PermissionRequest` | When Claude requests permission for a tool |
-| `Notification` | When Claude sends a notification |
-| `SubagentStart` | When a subagent (Agent tool) starts |
-| `SubagentStop` | When a subagent finishes |
+| `Setup` | On `--init-only`, or `--init` / `--maintenance` in `-p` mode |
+| `SessionStart` | When a session begins or resumes |
+| `SessionEnd` | When a session terminates |
+| `InstructionsLoaded` | When a `CLAUDE.md` or `.claude/rules/*.md` file is loaded into context |
+| `ConfigChange` | When a configuration file changes during a session |
+| `CwdChanged` | When the working directory changes |
+| `DirectoryAdded` | After `/add-dir` or the SDK `register_repo_root` (added v2.1.220) |
+| `FileChanged` | When a watched file changes on disk |
+
+**Prompts and messages**
+
+| Event | When it fires |
+|---|---|
+| `UserPromptSubmit` | When you submit a prompt, before Claude processes it |
+| `UserPromptExpansion` | When a typed command expands into a prompt, before it reaches Claude |
+| `MessageDisplay` | While assistant message text is displayed |
 | `Stop` | When Claude finishes responding |
+| `StopFailure` | When the turn ends due to an API error |
+
+**Tool calls and permissions**
+
+| Event | When it fires |
+|---|---|
+| `PreToolUse` | Before a tool call executes — can allow or deny it |
+| `PermissionRequest` | When a tool call needs a permission decision |
+| `PermissionDenied` | When a tool call is denied by the auto mode classifier |
+| `PostToolUse` | After a tool call succeeds |
+| `PostToolUseFailure` | After a tool call fails |
+| `PostToolBatch` | After a full batch of parallel tool calls resolves |
+| `Notification` | When Claude Code sends a notification |
+
+**Subagents, tasks, and worktrees**
+
+| Event | When it fires |
+|---|---|
+| `SubagentStart` | When a subagent is spawned |
+| `SubagentStop` | When a subagent finishes |
+| `TaskCreated` | When a task is being created via `TaskCreate` |
+| `TaskCompleted` | When a task is being marked complete |
+| `TeammateIdle` | When an agent team teammate is about to go idle |
+| `WorktreeCreate` | When a worktree is being created |
+| `WorktreeRemove` | When a worktree is being removed |
+
+**Context and MCP**
+
+| Event | When it fires |
+|---|---|
 | `PreCompact` | Before context compaction runs |
-| `SessionEnd` | When the session ends |
-| `TeammateIdle` | When a teammate is idle |
-| `TaskCompleted` | When a task completes |
-| `ConfigChange` | When configuration is modified |
-| `WorktreeCreate` | When a git worktree is created |
-| `WorktreeRemove` | When a git worktree is removed |
+| `PostCompact` | After context compaction completes |
+| `Elicitation` | When an MCP server requests user input during a tool call |
+| `ElicitationResult` | After a user responds to an MCP elicitation |
 
 ### Hook types
 
@@ -463,6 +499,10 @@ This template already uses one hook: `SessionStart` runs `.claude/hooks/session-
 | `prompt` | Sends a prompt to Claude |
 | `agent` | Spins up a subagent |
 | `http` | Makes an HTTP request (added v2.1.63) |
+| `mcp_tool` | Calls an MCP tool |
+
+Most events accept all five types. `SessionStart` and `Setup` are the exception — they
+support only `command` and `mcp_tool`.
 
 ### When to use hooks
 
@@ -473,7 +513,48 @@ This template already uses one hook: `SessionStart` runs `.claude/hooks/session-
 
 ---
 
-## 13. GitHub Security — Is a Private Repo Safe?
+## 13. Sandboxing — Containing What Claude Can Reach
+
+### What it is
+
+Sandboxing puts OS-level limits on the commands Claude runs, independently of the
+permission system. Permissions decide *whether* a command is allowed to start;
+the sandbox decides *what that command can touch* once it is running.
+
+The two layers answer different questions, so they are worth having together:
+
+| Layer | Question it answers | Where configured |
+|---|---|---|
+| Permissions (`allow` / `ask` / `deny`) | Should this tool call happen at all? | `.claude/settings.json` |
+| `PreToolUse` hook | Does this specific invocation look dangerous? | `.claude/hooks/pre-tool-use.sh` |
+| Sandbox | What filesystem and network can the running command see? | `/sandbox`, `sandbox.*` settings |
+
+A `deny` rule stops `curl https://evil.example`. The sandbox stops a command you
+*did* approve from quietly reaching a host you never intended.
+
+### Turning it on
+
+Run `/sandbox` in a session. It applies to bash commands for that session.
+
+Reach for it when working with external web services, untrusted content, or
+unfamiliar dependencies — anything where a command might do more than it says.
+
+### Settings
+
+| Key | What it does |
+|---|---|
+| `sandbox.network.strictAllowlist` | Denies any host not on the allowlist, rather than allowing by default (added v2.1.220) |
+| `sandbox.filesystem.disabled` | Skips filesystem isolation while keeping network control (added v2.1.216) |
+| `sandbox.allowAppleEvents` | Lets sandboxed commands send Apple Events on macOS (added v2.1.181) |
+| `sandbox.credentials` | Controls which credential files and env vars reach the sandbox. **Managed settings only** — cannot be set in a project or user settings file (added v2.1.191) |
+
+This template does not enable sandboxing by default. Turning it on changes how
+every bash command behaves, and the right allowlist is project-specific — so it is
+a deliberate per-project choice rather than a template default.
+
+---
+
+## 14. GitHub Security — Is a Private Repo Safe?
 
 ### What "private" actually means
 
@@ -518,7 +599,7 @@ A private GitHub repo is very safe if you use it correctly. The platform itself 
 
 ---
 
-## 14. How Everything Ties Together
+## 15. How Everything Ties Together
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -576,7 +657,7 @@ A private GitHub repo is very safe if you use it correctly. The platform itself 
 
 ---
 
-## 15. Best Practices — All Together
+## 16. Best Practices — All Together
 
 ### Repository
 - One repo per project unless there is a strong reason for a monorepo
@@ -616,9 +697,10 @@ A private GitHub repo is very safe if you use it correctly. The platform itself 
 - MCP servers extend what Claude can reach — add only what you actually need
 - Let Claude manage branches and commits — it follows your `CLAUDE.md` conventions automatically
 - Use hooks for ambient automation (startup context, logging, notifications) — not for AI control flow
-- Run `/sync-template` periodically to review Claude Code release notes and keep this template current
+- Turn on `/sandbox` when working with external services or untrusted content — permissions gate whether a command runs, the sandbox limits what it can reach
+- Run `/sync-template` periodically to review the Claude Code changelog and keep this template current
 
-## 16. The Template Feedback Loop
+## 17. The Template Feedback Loop
 
 A template is only useful if it stays current. Three mechanisms keep knowledge flowing in the right directions:
 

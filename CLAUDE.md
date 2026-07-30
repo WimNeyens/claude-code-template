@@ -123,7 +123,7 @@ Before executing any of the following, explicitly describe the action and ask th
                                # troubleshooting-verification
   template-baseline.md         # Fork-time snapshot — inherited files, commit SHA, template URL
   harvest-queue.md             # Transient harvest flag queue (gitignored)
-  docs-baseline.hash           # SHA-256 of last-reviewed Claude Code release notes
+  docs-baseline.hash           # SHA-256 of last-reviewed Claude Code changelog
   settings.json                # Shared permissions and hooks
   settings.local.json          # Machine-specific MCP tokens (gitignored — never commit)
   settings.local.json.example  # Template for settings.local.json — committed, no secrets

@@ -247,7 +247,7 @@ your-project-name/
 │   ├── settings.json              # Shared Claude permissions, env vars, and hooks (committed)
 │   ├── settings.local.json        # Machine-specific MCP servers and tokens (gitignored)
 │   ├── settings.local.json.example  # Template for settings.local.json — copy and fill in
-│   ├── docs-baseline.hash         # SHA-256 of last-reviewed Claude Code release notes
+│   ├── docs-baseline.hash         # SHA-256 of last-reviewed Claude Code changelog
 │   ├── README.md                  # Index of every command and skill (keep in sync when adding/removing)
 │   ├── commands/
 │   │   ├── commit-message.md      # /commit-message — drafts a commit message from current changes
